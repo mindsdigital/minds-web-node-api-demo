@@ -27,19 +27,24 @@
                     <p>Movimentações de Fevereiro de 2024</p>
                 </div><!-- section-title-->
                 <div class="section-content">
-                    <% transactions.forEach((transaction) => { %>
-                        <% if (transaction.transaction_direction.trim() === 'outgoing') { %>
-                            <div class="saidas-extrato">
-                        <% } else { %>  
-                            <div class="entradas-extrato">
-                        <% } %>
-                            <div class="transaction_type"><%= transaction.transaction_type %></div>
-                            <div class="transaction_description"><%= transaction.description %></div>
-                            <div class="transaction_date"><%= transaction.transaction_date %></div>
-                            <div class="amount"><%= transaction.amount %></div>
-                        </div>
-                        <hr>
-                    <% }) %>
+                    <% if (transactions && transactions.length > 0) { %>
+                        <% transactions.forEach((transaction) => { %>
+                            <% if (transaction.transaction_direction.trim() === 'outgoing') { %>
+                                <div class="saidas-extrato">
+                            <% } else { %>  
+                                <div class="entradas-extrato">
+                            <% } %>
+                                <div class="transaction_type"><%= transaction.transaction_type %></div>
+                                <div class="transaction_description"><%= transaction.description %></div>
+                                <div class="transaction_date"><%= transaction.transaction_date %></div>
+                                <div class="amount"><%= transaction.amount %></div>
+                            </div>
+                            <hr>
+                        <% }) %>
+                      <% } else { %>
+                        <div>No transactions</div>
+
+                      <% } %>                  
                 </div><!-- section-content --> 
             </div><!-- content -->
         </section><!-- main -->

@@ -10,7 +10,7 @@ const generateGuid = () => {
 };
 
 const upload = multer({
-  storage: multer.memoryStorage()
+    storage: multer.memoryStorage()
 });
 
 const postLogin = async (req, res, file) => {
@@ -23,19 +23,19 @@ const postLogin = async (req, res, file) => {
         fs.writeFileSync(`${fileName}`, audio, 'base64');
         console.log('Audio saved');
 
-        let audioBase64 = await convertToOpus(fileName);
+        let audioBase64 = await convertAudio(fileName);
         if (!audioBase64) {
             console.error("Error converting audio to Opus");
         }
 
         const { document_id, phone_number } = await userService.getUser(username);
         console.log("Authentication with document Id:", document_id);
-        
+
         const response = await voiceBiometric.performAuthentication(document_id, phone_number, audioBase64);
 
         console.log(`RESPONSE: ${response}`);
 
-        if (response.data.success) {
+        if (response.success) {
             const token = jwt.sign({ username: 'nomeDoUsuario' }, process.env.JWT_SECRET, { expiresIn: '15m' });
             console.log(`JWToken: ${token}`);
 
@@ -69,41 +69,43 @@ async function performAuthentication(document_id, phone_number, audio) {
     );
 }
 
-function convertToOpus(fileName) {
+async function convertAudio(fileName) {
     return new Promise((resolve, reject) => {
-      ffmpeg(fileName)
-        .outputOptions(["-ac 1", "-ab 16k", "-vn"])
-        .toFormat("opus")
-        .on("error", (err) => {
-          console.log("An error occurred: " + err.message);
-          reject(err);
-        })
-        .on("end", () => {
-          console.log("Conversion succeeded!");
-          resolve(fs.readFileSync(fileName.replace(".webm", ".ogg"), "base64"));
-        })
-        .save(fileName.replace(".webm", ".ogg"));
+        ffmpeg(fileName)
+            .audioCodec('pcm_s16le')
+            .audioFrequency(16000)
+            .audioChannels(1)
+            .toFormat('wav')
+            .on("error", (err) => {
+                console.log("An error occurred: " + err.message);
+                reject(err);
+            })
+            .on("end", () => {
+                console.log("Conversion succeeded!");
+                resolve(fs.readFileSync(fileName.replace(".webm", ".wav"), "base64"));
+            })
+            .save(fileName.toString().replace(".webm", ".wav"));
     });
-  }
+}
 
 function convertToOpus(fileName) {
-  return new Promise((resolve, reject) => {
-    ffmpeg(fileName)
-      .outputOptions(["-ac 1", "-ab 16k", "-vn"])
-      .toFormat("opus")
-      .on("error", (err) => {
-        console.log("An error occurred: " + err.message);
-        reject(err);
-      })
-      .on("end", () => {
-        console.log("Conversion succeeded!");
-        resolve(fs.readFileSync(fileName.replace(".webm", ".ogg"), "base64"));
-      })
-      .save(fileName.replace(".webm", ".ogg"));
-  });
+    return new Promise((resolve, reject) => {
+        ffmpeg(fileName)
+            .outputOptions(["-ac 1", "-ab 16k", "-vn"])
+            .toFormat("opus")
+            .on("error", (err) => {
+                console.log("An error occurred: " + err.message);
+                reject(err);
+            })
+            .on("end", () => {
+                console.log("Conversion succeeded!");
+                resolve(fs.readFileSync(fileName.replace(".webm", ".ogg"), "base64"));
+            })
+            .save(fileName.replace(".webm", ".ogg"));
+    });
 }
-    
+
 module.exports = {
-    postLogin, 
+    postLogin,
     upload
 };
