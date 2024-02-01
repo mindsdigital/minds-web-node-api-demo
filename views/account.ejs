@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <%- include('partials/head.ejs') %>
+        <title>Faça seu Login no Minds Bank</title>
+</head>
+
+    <body>
+        <header>
+            <%- include('partials/header.ejs') %>
+        </header>
+        <section class="main">
+            <div class="sidebar">
+                <h3>O que você deseja fazer hoje?</h3>
+                <a href="#">Extrato</a>
+                <a href="#">Transferencia</a>
+                <a href="#">Empréstimo</a>
+                <a href="#">Dados Pessoais</a>
+                <a href="#">Configurações</a>
+                <hr>
+            </div><!-- sidebar -->
+            <div class="content">
+                <div class="section-title">
+                    <h2>Extrato</h2>
+                    <hr>
+                    <p>Movimentações de Fevereiro de 2024</p>
+                </div><!-- section-title-->
+                <div class="section-content">
+                    <% transactions.forEach((transaction) => { %>
+                        <% if (transaction.transaction_direction.trim() === 'outgoing') { %>
+                            <div class="saidas-extrato">
+                        <% } else { %>  
+                            <div class="entradas-extrato">
+                        <% } %>
+                            <div class="transaction_type"><%= transaction.transaction_type %></div>
+                            <div class="transaction_description"><%= transaction.description %></div>
+                            <div class="transaction_date"><%= transaction.transaction_date %></div>
+                            <div class="amount"><%= transaction.amount %></div>
+                        </div>
+                        <hr>
+                    <% }) %>
+                </div><!-- section-content --> 
+            </div><!-- content -->
+        </section><!-- main -->
+    </body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <%- include('partials/head.ejs') %>
+        <title>Cadastre-se no Minds Bank</title>
+</head>
+
+<body>
+    <header>
+        <%- include('partials/header.ejs') %>
+    </header>
+    <main>
+        <article>
+            <img id="logoRobo" src="/images/robo.jpeg" alt="Robo usando autenticação de voz" />
+        </article>
+        <aside>
+            <div id="registerFormWrapper">
+                <form id="registerForm">
+                    <div>
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" autocomplete="false" required />
+                    </div>
+                    <div>
+                        <label for="document_id">Document ID:</label>
+                        <input type="text" id="document_id" name="document_id" autocomplete="false" required />
+                    </div>
+                    <div>
+                        <label for="phone_number">Phone Number:</label>
+                        <input type="tel" id="phone_number" name="phone_number" autocomplete="false" required />
+                    </div>
+                    <div id="recordButtonWrapper">
+                        <span for="timeStamp" id="timeStamp" hidden>Time: 00:00:00</span>
+                        <button type="button" id="startRecording">Iniciar Gravação</button>
+                        <button type="button" id="stopRecording" hidden>Parar Gravação</button>
+                        <label id="instructions-register">Grave pelo menos 4 segundos para cadastrar sua
+                            biometria.</label>
+                    </div>
+                    <div>
+                        <button id="submit" type="submit" hidden>Cadastrar</button>
+                    </div>
+                    <div id="logsWrapper">
+                        <span>Exibir Logs: </span>
+                        <label class="switch" for="ckbLogs">
+                            <input type="checkbox" id="ckbLogs" />
+                            <div class="slider round"></div>
+                        </label>
+                    </div>
+                    <div>
+                        <textarea id="logs" name="logs" rows="10" cols="120" hidden>LOGS:</textarea>
+                    </div>
+                    <div>
+                        <audio id="audioPlayer" controls>
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                </form>
+            </div>
+        </aside>
+
+    </main>
+    <script>
+        async function startRecording() {
+            const usernameValue = username.value.trim();
+
+            if (usernameValue.length === 0) {
+                return alert("Por favor, preencha o campo username!");
+            }
+
+            const userData = await checkUsernameExists(usernameValue);
+
+            if (!userData) {
+                return alert("O username não possui biometria cadastrada");
+            }
+
+            logInBrowser(`User Data: ${JSON.stringify(userData)}`);
+            return;
+
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    audio: true,
+                });
+
+                timestamp.hidden = false;
+                audioPlayer.hidden = false;
+
+                mediaRecorder = new MediaRecorder(stream);
+
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        audioChunks.push(event.data);
+                    }
+                };
+
+                startTimer();
+                logInBrowser(`Started recording at ${new Date()}`);
+
+                mediaRecorder.onstop = () => {
+                    const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
+                    const audioUrl = URL.createObjectURL(audioBlob);
+
+                    audioPlayer.src = audioUrl;
+                    stopRecordingButton.disabled = true;
+                    isRecording = false;
+                    logInBrowser(`Stopped recording at ${new Date()}`);
+                    resetRecording();
+                };
+
+                mediaRecorder.start();
+                startRecordingButton.hidden = true;
+                stopRecordingButton.hidden = true;
+                stopRecordingButton.disabled = false;
+                isRecording = true;
+
+            } catch (error) {
+                logInBrowser(error);
+            }
+        }
+
+        function stopRecording() {
+            event.preventDefault();
+            logInBrowser(`stopRecording : Stopped timer at ${new Date()}`);
+
+            if (isRecording) {
+                mediaRecorder.stop();
+                clearInterval(intervalId);
+                startRecordingButton.hidden = true;
+                stopRecordingButton.hidden = true;
+                isRecording = false;
+            }
+        }
+
+        async function startTimer() {
+            logInBrowser(`startTimer : Started timer at ${new Date()}`);
+            intervalId = setInterval(async () => {
+                seconds++;
+                logInBrowser(`Time: ${formatTime(seconds)}`);
+
+                if (seconds >= RECORDING_LIMIT) {
+                    clearInterval(intervalId);
+                    mediaRecorder.stop();
+                    logInBrowser("Time's up!");
+                }
+            }, 1000);
+        }
+
+
+    </script>
+</body>
+
+</html>

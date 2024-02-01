@@ -1,0 +1,7 @@
+node_modules
+public/uploads
+myDemo.db
+transactions.csv
+usuarios.csv
+public/.DS_Store
+myDemo.sqbpro

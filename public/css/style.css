@@ -1,0 +1,408 @@
+:root {
+  --primary-light: #66a0ff;      /* Lighter blue for backgrounds */
+  --primary: #0059ff;           /* Main blue for text */
+  --primary-dark: #011640;       /* Darker blue for accents */
+  --yellow: #f5a623;             /* Yellow for emphasis */
+  --yellow-light: #ffd133;       /* Lighter yellow for backgrounds */
+  --red: #e74c3c;                /* Red for alerts */
+  --blue-hover: #66a0ff;         /* Hover effect for blue */
+  --yellow-hover: #ffd133;       /* Hover effect for yellow */
+  --red-hover: #ff6172;          /* Hover effect for red */
+  --green: #045407;
+
+  --light-text: #fff;            /* Light text for dark backgrounds */
+  --text: #252525;               /* Main text color */
+  --bold-text: #011640;          /* Bold text color for emphasis */
+  --bg-gray: #cbcbcb;            /* Background gray for subtle elements */
+  --border-color: #eaeaea;       /* Border color */
+
+  --light-bg: #ffffff;           /* Light background for light mode */
+  --grey-bg: #f4f4f4;            /* Gray background for light mode */
+  --dark-bg: #1a1a1a;            /* Dark background for dark mode */
+
+  --security-blue: #003366;          /* Blue for security and trust */
+  --security-opposite: #ffcc99;      /* Contrast for blue security and trust */
+  --wealth-yellow: #FFD700;          /* Yellow for wealth and prosperity */
+  --modern-blue-hover: #66a0ff;      /* Hover effect for modernity */
+  --modern-yellow-hover: #ffd133;    /* Hover effect for modernity */
+  --availability-green: #4CAF50;     /* Green for availability and abundance */
+
+  --minds-color: #0055FF;
+  --a5-color: #F78215;
+
+  --radius: 10px;
+  --border-color: #eaeaea;
+  --border: 1px solid var(--border-color);
+}
+
+/* Estilos gerais para tornar a página responsiva */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow: unset;
+}
+
+/* Estilos para o cabeçalho */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-image: linear-gradient(to right, var(--minds-color), var(--a5-color));
+  padding: 10px;
+}
+
+header img {
+  max-width: 100px;
+  height: auto;
+  border-radius: 50%;
+}
+
+nav {
+  display: flex;
+  gap: 20px;
+}
+
+/* Estilos para o conteúdo principal */
+main {
+  max-width: 1400px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: var(--grey-bg);
+}
+
+/* Estilos para o rodapé */
+footer {
+  text-align: center;
+  padding: 10px;
+  background-color: var(--dark-bg);
+  color: var(--light-text);
+}
+
+/* Estilos para tornar a página mais responsiva em dispositivos móveis */
+@media only screen and (max-width: 600px) {
+  header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  header img {
+    margin-bottom: 10px;
+  }
+
+  nav {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  main {
+    padding: 0px;
+  }
+}
+
+article {
+  padding: 20px;
+}
+
+aside{
+  padding: 20px;
+}
+
+button {
+  background-color: var(--primary-dark);
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--blue-hover);
+  transition: all 0.3s ease-in-out;
+}
+
+form {
+  width: 70%;
+  margin: 10px auto;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 16px;
+  border-color: var(--blue);
+  font-size: 15px;
+  border-radius: var(--radius);
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+li {
+  display: inline-block;
+  margin: 20px;
+}
+
+main {
+  display: flex;
+  height: 90%; 
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+  border-color: var(--blue);
+}
+
+#instructions-login {
+  color: var(--orange);
+}
+
+#loginFormWrapper {
+  padding: 10px;
+  width: 90%;
+  display: flex;
+  border: var(--blue) solid 1px;
+  border-color: var(--blue);
+  border-radius: var(--radius);
+  box-shadow:3px 3px 5px #737d90;
+}
+
+#logoRobo {
+  max-width: 350px;
+  height: auto;
+  border-radius: calc(var(--radius)*13);
+}
+
+#logsWrapper {
+  display: flex;
+}
+
+#recordButtonWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#timeStamp {
+  color: var(--font);
+  font-size: small;
+}
+
+#title {
+  padding-left: 20px;
+}
+
+#title h1{
+  color: var(--light-text);
+}
+
+.main {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+}
+
+.main-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  background-color: var(--grey-bg);
+  min-height: 100vh;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 15%;
+  color: var(--security-blue);
+  background-color: var(--light-bg);
+}
+
+.sidebar h3 {
+  padding: 5px;
+  text-align: center;
+  color: var(--moder);
+  font-size: 16px;
+}
+
+.sidebar a {
+  font-size: 14px;
+  display: block;
+  color: var(--security-blue);
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+  padding: 12px 12px;
+}
+
+.sidebar a:hover {
+  display: block;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 12px 12px;
+  background-color:var(--modern-yellow-hover);
+  color: var(--security-blue);
+  transition: ease-in 0.2s;
+}
+
+.content {
+  width: 85%;
+  height: 100%;
+  background-color: var(--bg-gray);
+}
+
+.section-title {
+  background-color: white;
+  padding: 12px;
+  margin: 12px;
+  margin-top: 4px;
+  border-radius: var(--radius);
+}
+
+.section-content {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 12px;
+  margin: 12px;
+  border-radius: var(--radius);
+}
+
+.section-content hr {
+  width: 100%;
+}
+
+.saidas-extrato,.entradas-extrato{
+  width:100%;
+  display:flex;
+  justify-content: space-between;
+  font-size: 14px;
+  padding: 4px;
+}
+
+.saidas-extrato .amount,.saidas-extrato .transaction_type{
+  width: 15%;
+  text-align: right;
+  padding: 3px;
+  color: var(--red);
+}
+
+.entradas-extrato .amount,.entradas-extrato .transaction_type{
+  width: 15%;
+  text-align: right;
+  padding: 3px;
+  color: var(--green);
+}
+
+.saidas-extrato .transaction_type{
+  width: 15%;
+  text-align: left;
+  padding: 3px;
+  color: var(--red);
+}
+
+.entradas-extrato .transaction_type{
+  width: 15%;
+  text-align: left;
+  padding: 3px;
+  color: var(--green);
+}
+
+.transacao-entrada {
+  width: 30%;
+  font-weight: bold;
+  color: var(--green);
+
+}
+
+.transacao-saida {
+  width: 30%;
+  font-weight:normal;
+  color: var(--bold-text);
+}
+
+.transaction_description {
+  width: 40%;
+  font-weight:normal;
+  color: var(--bold-text);
+}
+
+.transaction_date {
+  width: 15%;
+  font-weight:normal;
+  color: var(--bold-text);
+}
+
+.transacao-positiva {
+  width: 15%;
+  font-weight:normal;
+  text-align: right;
+  color: var(--green);
+}
+
+.transacao-negativa {
+  width: 15%;
+  font-weight:normal;
+  text-align: right;
+  color: var(--red);
+}
+
+
+/* SLIDER */
+.switch {
+  display: inline-block;
+  height: 20px;
+  position: relative;
+  width: 40px;
+}
+
+.switch input {
+  display:none;
+}
+
+.slider {
+  background-color: #ccc;
+  bottom: 0;
+  cursor: pointer;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: .4s;
+}
+
+.slider:before {
+  background-color: #fff;
+  bottom: 1px;
+  content: "";
+  height: 18px;
+  left: 1px;
+  position: absolute;
+  transition: .4s;
+  width: 18px;
+}
+
+input:checked + .slider {
+  background-color: var(--blue);
+}
+
+input:checked + .slider:before {
+  transform: translateX(18px);
+}
+
+.slider.round {
+  border-radius: 20px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
