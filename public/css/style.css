@@ -75,33 +75,8 @@ main {
 footer {
   text-align: center;
   padding: 10px;
-  background-color: var(--dark-bg);
-  color: var(--light-text);
-}
-
-/* Estilos para tornar a página mais responsiva em dispositivos móveis */
-@media only screen and (max-width: 600px) {
-  header {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  header img {
-    margin-bottom: 10px;
-  }
-
-  nav {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  main {
-    padding: 0px;
-  }
-}
-
-article {
-  padding: 20px;
+  background-color: var(--light-bg);
+  color: var(--minds-color);
 }
 
 aside{
@@ -177,7 +152,7 @@ textarea {
 }
 
 #logoRobo {
-  max-width: 350px;
+  max-width: 30%;
   height: auto;
   border-radius: calc(var(--radius)*13);
 }
@@ -405,4 +380,38 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+/* Estilos para tornar a página mais responsiva em dispositivos móveis */
+@media only screen and (max-width: 600px) {
+  header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  header img {
+    margin-bottom: 10px;
+  }
+
+  nav {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  main {
+    padding: 0px;
+  }
+  article {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+  #logoRobo {
+    max-width: 30%;
+    height: auto;
+    border-radius: calc(var(--radius)*8);
+  }
+}
+
+article {
+  padding: 20px;
 }

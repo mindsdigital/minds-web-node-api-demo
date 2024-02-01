@@ -6,7 +6,6 @@ const account = async (req, res) => {
     try {
         const transactions = await accountService.getTransactions(req.params.username);
         if (transactions) {
-            console.log('Transactions: '+ transactions);
             res.set("Content-Security-Policy", "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'")
             res.render('account', { transactions });
         } else {

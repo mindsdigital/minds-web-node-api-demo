@@ -1,3 +1,6 @@
 {
-    "ext": "js,ejs,html,css"
+    "ext": "js,ejs,html,css",
+    "execMap" :{
+        "js": "node --inspect"
+    }
 }

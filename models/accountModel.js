@@ -7,20 +7,18 @@ const db = new sqlite3.Database("myDemo.db");
  */
 const getTransactions = (username) => {
   return new Promise((resolve, reject) => {
-    db.get(
-      "SELECT * FROM transactions WHERE username = ? ORDER BY transaction_date DESC LIMIT 15",
+    db.all(
+      "SELECT * FROM transactions WHERE username = ? ORDER BY transaction_date DESC",
       [common.removeInvalidChar(username)],
-      (err, row) => {
+      (err, rows) => {
         if (err) {
           reject(err);
-        } else if (row) {
-          resolve({
-            ...row,
-            amount: common.formatCurrency(row.amount),
-            transaction_date: common.formatDate(row.transaction_date),
-          });
         } else {
-          reject(new Error("Sem transações para esse usuário"));
+          rows.forEach((row) => {
+            row.amount = common.formatCurrency(row.amount);
+            row.transaction_date = common.formatDate(row.transaction_date);
+          });
+          resolve(rows);
         }
       }
     );
