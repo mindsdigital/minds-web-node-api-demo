@@ -1,5 +1,3 @@
-const { Axios } = require("axios");
-
 const btnTransfer = document.getElementById("transferOption");
 const btnCancelTransfer = document.getElementById("cancelTranferBtn");
 const modalContainer = document.getElementById("modalContainer");
@@ -15,15 +13,16 @@ closeModal = () => {
     modal.style.display = "none";
 };
 
-btnTransfer.addEventListener("click", openModal());
 btnCancelTransfer.addEventListener("click", closeModal());
 
 makeTransfer = async (userFrom, userTo, amount) => {
     console.log(userFrom, userTo, amount);
     const formData = new FormData();
 
-    formData.append("username", username);
-    formData.append("audio", audioBlob);
+    formData.append("userFrom", username);
+    formData.append("userTo", userTo);
+    formData.append("amount", amount);
+    
     //Needs to call the /transfer API and send the params to proceed with transfer
     try {
         const response = await fetch(`http://localhost:3000/transferFunds/`, {
