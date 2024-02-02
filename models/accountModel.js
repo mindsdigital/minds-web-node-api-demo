@@ -15,7 +15,7 @@ const getTransactions = (username) => {
           reject(err);
         } else {
           rows.forEach((row) => {
-            row.amount = common.formatCurrency(row.amount);
+            row.amount = row.amount;
             row.transaction_date = common.formatDate(row.transaction_date);
           });
           resolve(rows);

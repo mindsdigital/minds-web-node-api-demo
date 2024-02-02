@@ -28,6 +28,23 @@ const getUser = (username) => {
 };
 
 /**
+ * Retrieves all users.
+ */
+const getAllUsers = () => {
+    return new Promise((resolve, reject) => {
+        db.all("SELECT * FROM users_demo ORDER BY username ASC", [], (err, rows) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(rows);
+            }
+        });
+
+    });
+};
+
+
+/**
  * Add a new user information to the database.
  */
 const addUser = (username, document_id, phone_number, active, email, brand, profile, full_name) => {
@@ -64,5 +81,6 @@ function removeInvalidChar(unsafeString) {
 
 module.exports = {
     addUser,
-    getUser
+    getUser,
+    getAllUsers
 };

@@ -1,6 +1,6 @@
 :root {
   --primary-light: #66a0ff;      /* Lighter blue for backgrounds */
-  --primary: #0059ff;           /* Main blue for text */
+  --primary: #0059ff;            /* Main blue for text */
   --primary-dark: #011640;       /* Darker blue for accents */
   --yellow: #f5a623;             /* Yellow for emphasis */
   --yellow-light: #ffd133;       /* Lighter yellow for backgrounds */
@@ -26,6 +26,10 @@
   --modern-blue-hover: #66a0ff;      /* Hover effect for modernity */
   --modern-yellow-hover: #ffd133;    /* Hover effect for modernity */
   --availability-green: #4CAF50;     /* Green for availability and abundance */
+
+  --dashboard-incoming: #c4f7dc;     /* Green box for incomings */  
+  --dashboard-outgoing: #f5d3d3;         /* Red box for outgoing */  
+  --dashboard-totals: #BBE5FF;       /* Blue box for totals */
 
   --minds-color: #0055FF;
   --a5-color: #F78215;
@@ -243,6 +247,40 @@ textarea {
   border-radius: var(--radius);
 }
 
+.dashboard {
+  display: flex;;
+  background-color: white;
+  padding: 8px;
+  margin: 8px;
+  margin-top: 4px;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: var(--radius);
+  justify-content: space-around;
+  text-align: center;
+}
+
+.incomingBox {
+  background-color: var(--dashboard-incoming);
+  padding: 24px;
+  margin: 8px;
+  border-radius: var(--radius);
+}
+
+.outgoingBox {
+  background-color: var(--dashboard-outgoing);
+  padding: 24px;
+  margin: 8px;
+  border-radius: var(--radius);
+}
+
+.totalsBox {
+  background-color: var(--dashboard-totals);
+  padding: 24px;
+  margin: 8px;
+  border-radius: var(--radius);
+}
+
 .section-content {
   display: flex;
   flex-direction: column;
@@ -380,6 +418,46 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+.modal_container {
+  display: none;
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  opacity: 0.95;
+  background: #222;
+  z-index: 40000;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  animation-name: fadeIn_Container;
+  animation-duration: 1s;
+}
+
+.modal{
+  display: none;
+  top: 0;
+  min-width: 250px;
+  width: 80%;
+  height: 400px;
+  margin: 0 auto;
+  position: fixed;
+  z-index: 40001;
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: 0px 0px var(--radius) #000;
+  margin-top: 30px;
+  margin-left: 10%;
+  opacity: 1;
+  animation-name: fadeIn_Modal;
+  animation-duration: 0.8s;
+}
+
+.pickUserTransfer {
+  text-align: center;
+  color: var(--minds-color);
+  padding: 18px;
 }
 
 /* Estilos para tornar a página mais responsiva em dispositivos móveis */

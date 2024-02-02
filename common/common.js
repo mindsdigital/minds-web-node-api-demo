@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+
 const formatDate = (dateString) => {
   const date = new Date(dateString);
   return new Intl.DateTimeFormat("pt-BR").format(date);
@@ -7,6 +9,22 @@ const formatDate = (dateString) => {
 const formatCurrency = (amount) => {
     const formattedAmount = amount.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     return formattedAmount;
+}
+
+const isAuthenticated = (req, res, next) => {
+  const token = req.cookies && req.cookies.jwt;
+
+  if (token) {
+      try {
+          const decoded = jwt.verify(token, process.env.JWT_SECRET);
+          req.user = decoded;
+          next();
+      } catch (error) {
+          res.redirect('/login?error=invalid_token');
+      }
+  } else {
+      res.redirect('/login?error=missing_token');
+  }
 }
 
 /**
@@ -20,5 +38,6 @@ const removeInvalidChar = (unsafeString) => {
 module.exports = {
     formatDate,
     formatCurrency, 
-    removeInvalidChar
+    removeInvalidChar, 
+    isAuthenticated
 };

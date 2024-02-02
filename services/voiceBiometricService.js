@@ -1,4 +1,6 @@
-require('dotenv').config()
+require('dotenv').config();
+const uuid = require('uuid');
+
 const axios = require("axios").default;
 
 const MINDS_API = "https://sandbox-voice-api.minds.digital/v2.1";
@@ -35,8 +37,10 @@ const performAuthentication = async (document_id, phone_number, audioBase64) => 
         value: document_id,
       },
       extension: "wav",
-      external_id: document_id,
+      external_id: uuid.v4(),
+
       phone_number: phone_number,
+      source_name: "API",
       show_details: true,
     },
   };
@@ -46,6 +50,7 @@ const performAuthentication = async (document_id, phone_number, audioBase64) => 
     .then(function (response) {
       if (response.data) {
         console.log(response.data);
+        return response;
       }
     })
     .catch(function (error) {
@@ -72,6 +77,8 @@ const voiceEnrollment = async (document_id, phone_number, audioBase64) => {
       external_id: document_id,
       phone_number: phone_number,
       show_details: true,
+      certification: false,
+      insert_on_quarantine: false
     },
   };
 

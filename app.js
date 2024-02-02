@@ -1,5 +1,4 @@
 const express = require('express');
-const axios = require('axios');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const app = express();
@@ -9,6 +8,7 @@ const helmet = require('helmet');
 const { error } = require('console');
 const { type } = require('os');
 
+const common = require('./common/common');
 const userRoute = require('./routes/users');
 const loginRoute = require('./routes/login');
 const accountRoute = require('./routes/account');
@@ -36,10 +36,7 @@ app.get('/register', (req, res) => {
         .render('register');
 });
 
-app.get('/minhaconta', (req, res) => {
-    res.set("Content-Security-Policy", "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'")
-        .render('account');
-});
+app.get('/minhaconta/:username', accountRoute);
 
 app.post('/login', loginRoute);
 
@@ -71,28 +68,10 @@ app.post('/register', async (req, res) => {
     }
 });
 
-app.get('/authenticated', isAuthenticated, (req, res) => {
+app.get('/authenticated', common.isAuthenticated, (req, res) => {
     // O objeto req.user agora contém os dados do usuário, se necessário
     res.render('authenticated');
 });
-
-function isAuthenticated(req, res, next) {
-    const token = req.cookies && req.cookies.jwt;
-
-    if (token) {
-        try {
-            const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            req.user = decoded;
-            next();
-        } catch (error) {
-            res.redirect('/login?error=invalid_token');
-        }
-    } else {
-        res.redirect('/login?error=missing_token');
-    }
-}
-
-
 
 app.listen(PORT, () => {
     console.log(`Servidor rodando em http://localhost:${PORT}`);

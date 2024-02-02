@@ -1,13 +1,27 @@
 const accountService = require('../services/accountService');
+const userService = require('../services/userService');
 const accountModel = require('../models/accountModel');
 
 const account = async (req, res) => {
     console.log('Account controller: '+ req.params);
+
+    const listOfUsers = await userService.getAllUsers();
+
     try {
         const transactions = await accountService.getTransactions(req.params.username);
         if (transactions) {
+            incomingTotal = 0;
+            outgoingTotal = 0;
+            transactions.forEach(row => {
+                if (row.transaction_direction == "incoming") {
+                    incomingTotal += row.amount;
+                  }
+                  if (row.transaction_direction == "outgoing") {
+                    outgoingTotal += row.amount;
+                  }
+            });
             res.set("Content-Security-Policy", "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'")
-            res.render('account', { transactions });
+            res.render('account', { data: { transactions, incomingTotal, outgoingTotal, listOfUsers }});
         } else {
             res.status(404).send({ message: 'Transações não encontradas' });
         }
