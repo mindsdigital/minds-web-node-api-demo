@@ -15,35 +15,41 @@ closeModal = () => {
 
 btnCancelTransfer.addEventListener("click", closeModal());
 
-makeTransfer = async (userFrom, userTo, amount) => {
-    console.log(userFrom, userTo, amount);
-    const formData = new FormData();
+makeTransfer = async () => {
+  const userTo = document.getElementById("userTo").value;
+  const amount = document.getElementById("amountTransfer").value;
 
-    formData.append("userFrom", username);
-    formData.append("userTo", userTo);
-    formData.append("amount", amount);
-    
-    //Needs to call the /transfer API and send the params to proceed with transfer
-    try {
-        const response = await fetch(`http://localhost:3000/transferFunds/`, {
-            method: "POST",
-            body: formData,
-        });
+  console.log(userTo, amount);
+  const formData = new FormData();
 
-        if (response.ok) {
-            const responseData = await response.json();
-            return responseData;
-        } else if (response.status === 404) {
-            return null;
-        } else {
-            throw new Error(
-                `Failed to check transfer. Status: ${response.status}`
-            );
-        }
-    } catch (error) {
-        console.error("Error transfering", error);
-        return null;
-    } finally {
-        closeModal();
+  formData.append("userTo", userTo);
+  formData.append("amount", amount);
+
+  // Fix: Set headers to indicate form data is being sent
+  const headers = {
+    "Content-Type": "application/x-www-form-urlencoded",
+  };
+
+  try {
+    const response = await fetch(`http://localhost:3000/transferFunds/`, {
+      method: "POST",
+      // Pass form data and headers
+      body: new URLSearchParams(formData),
+      headers: headers,
+    });
+
+    if (response.ok) {
+      const responseData = await response.json();
+      return responseData;
+    } else if (response.status === 404) {
+      return null;
+    } else {
+      throw new Error(`Failed to check transfer. Status: ${response.status}`);
     }
-}
+  } catch (error) {
+    console.error("Error transfering", error);
+    return null;
+  } finally {
+    closeModal();
+  }
+};

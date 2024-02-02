@@ -1,0 +1,29 @@
+<div class="modal_container" id="modalContainer">
+    <div class="modal" id="modal">
+        <div class="section-title">
+            <h2>Transferência</h2>
+            <hr>
+                <form>
+                    <div class="pickUserTransfer">Escolha para quem você deseja enviar recursos:</div>
+                    <div>
+                        <label for="userTo">Favoritos:</label>
+                        <select id="userTo" name="userTo" autocomplete=false required>
+                            <% data.listOfUsers.forEach((user)=> { %>
+                                <option value="<%= user.username %>"><%= user.full_name %></option>
+                                <% })%>
+                        </select>
+                    </div>
+                    <br />
+                    <div>
+                        <label for="amountTransfer">Valor:</label>
+                        <input type="text" name="amountTransfer" id="amountTransfer" placeholder="Valor de Transferencia" autocomplete=false oninput="mascaraReais(event);" required>
+                    </div>
+                    <hr />
+                    <div>
+                        <button id="transferBtn" type="button" onclick="makeTransfer()">Transferir</button>
+                        <button id="cancelTranferBtn" type="button" onclick="closeModal()">Cancelar</button>
+                    </div>
+                </form>
+        </div><!-- section-title-->
+    </div>
+</div>

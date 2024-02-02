@@ -36,9 +36,7 @@ const postLogin = async (req, res, file) => {
       phone_number,
       audioBase64
     );
-
-    console.log(`RESPONSE: ${response}`);
-
+    console.log("Authentication response:", response.data.recommended_action);
     if (
       response.data.success &&
       response.data.result.recommended_action === "accept"
@@ -51,6 +49,7 @@ const postLogin = async (req, res, file) => {
       res.cookie("jwt", token, { httpOnly: true });
       res.redirect(`/account/${username}`);
     } else {
+      console.log("Authentication failed");
       res.redirect(`/login?error=${response.data.result.recommended_action}`);
     }
   } catch (error) {

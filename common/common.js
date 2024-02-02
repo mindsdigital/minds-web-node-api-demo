@@ -32,7 +32,10 @@ const isAuthenticated = (req, res, next) => {
  * This ensures only valid characters remain for lookup in the database.
  */
 const removeInvalidChar = (unsafeString) => {
-    return unsafeString.toString().replace(/[^a-zA-Z0-9]+/g, "");
+    if (unsafeString === undefined) {
+        return "";
+    }
+    return unsafeString.replace(/[^a-zA-Z0-9]+/g, "");
   }
 
 module.exports = {

@@ -12,6 +12,7 @@ const common = require('./common/common');
 const userRoute = require('./routes/users');
 const loginRoute = require('./routes/login');
 const accountRoute = require('./routes/account');
+const transferRoute = require('./routes/transfer');
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
@@ -21,20 +22,7 @@ app.use(cookieParser());
 //app.use(cors());
 app.use(helmet.contentSecurityPolicy());
 
-app.get('/login', (req, res) => {
-    res.set("Content-Security-Policy", "default-src *; media-src 'self' http://* blob:; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'")
-        .render('login');
-});
-
-app.get('/cadastrar', (req, res) => {
-    res.set("Content-Security-Policy", "default-src *; media-src 'self' http://* blob:; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'")
-        .render('register');
-});
-
-app.get('/register', (req, res) => {
-    res.set("Content-Security-Policy", "default-src *; media-src 'self' http://* blob:; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'")
-        .render('register');
-});
+app.get('/login', loginRoute);
 
 app.get('/minhaconta/:username', accountRoute);
 
@@ -43,6 +31,8 @@ app.post('/login', loginRoute);
 app.get('/users/:username', userRoute);
 
 app.get('/account/:username', accountRoute);
+
+app.post('/transferFunds', transferRoute);
 
 app.post('/register', async (req, res) => {
     const { username, phone_number, document_id } = req.body;

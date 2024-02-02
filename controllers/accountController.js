@@ -3,8 +3,7 @@ const userService = require('../services/userService');
 const accountModel = require('../models/accountModel');
 
 const account = async (req, res) => {
-    console.log('Account controller: '+ req.params);
-
+    
     const listOfUsers = await userService.getAllUsers();
 
     try {

@@ -25,6 +25,31 @@ const getTransactions = (username) => {
   });
 };
 
+/**
+ * Append a new transaction to the database.
+ * 
+ * @param {string} username
+ * @param {decimal} amount
+ * @param {string} transaction_type
+ * @param {string} transaction_direction
+ * @param {string} description
+ * @returns {Promise}
+ **/
+const appendTransaction = (username, amount, transaction_type, transaction_direction, description) => {
+    return new Promise((resolve, reject) => {
+      db.run("INSERT INTO transactions (username, amount, transaction_type, transaction_direction, description) VALUES (?,?,?,?,?)", 
+      [username, amount, transaction, transaction_direction, description],
+      (err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
+    }); 
+}
+
 module.exports = {
   getTransactions,
+  appendTransaction
 };
