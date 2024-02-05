@@ -4,7 +4,7 @@ const uuid = require("uuid");
 const multer = require("multer");
 const fs = require("fs");
 const ffmpeg = require("fluent-ffmpeg");
-const jwt = require("jsonwebtoken"); 
+const jwt = require("jsonwebtoken");
 
 const generateGuid = () => {
   return uuid.v4();
@@ -17,6 +17,21 @@ const upload = multer({
 const postLogin = async (req, res, file) => {
   try {
     const username = req.body.username;
+    const { document_id, phone_number } = await userService.getUser(username);
+    console.log("Authentication with document Id:", document_id);
+
+    const voiceEnrolled = await voiceBiometric.verifyEnrollment(document_id);
+    console.log("Voice enrollment status:", voiceEnrolled.status);
+    console.log("Voice enrollment certified:", voiceEnrolled.certified);
+    console.log("Voice enrollment enrolled:", voiceEnrolled.enrolled);
+    console.log("Voice enrollment certified:", voiceEnrolled.certified);
+
+    if (voiceEnrolled.status=='ok' && !voiceEnrolled.enrolled) {
+      console.log("Voice enrollment not found");
+      res.redirect(`/enroll/${username}`);
+      return;
+    }
+
     const audio = req.file.buffer.toString("base64");
     const guid = generateGuid();
     const fileName = `./public/uploads/${username}_${guid}.webm`;
@@ -28,12 +43,11 @@ const postLogin = async (req, res, file) => {
       console.error("Error converting audio to Opus");
     }
 
-    const { document_id, phone_number } = await userService.getUser(username);
-    console.log("Authentication with document Id:", document_id);
-
+    
     const response = await voiceBiometric.performAuthentication(
       document_id,
       phone_number,
+      guid,
       audioBase64
     );
     console.log("Authentication response:", response.data.recommended_action);
@@ -57,26 +71,6 @@ const postLogin = async (req, res, file) => {
     res.redirect("/login?error=unexpected_error");
   }
 };
-
-
-async function performAuthentication(document_id, phone_number, audio) {
-  return await axios
-    .post("https://sandbox-voice-api.minds.digital/v2.1/authentication", {
-      document: {
-        value: document_id,
-      },
-      external_id: document_id,
-      phone_number: phone_number,
-      show_details: true,
-      source: "API",
-      extension: "ogg",
-      audio: audio,
-    })
-    .config((config) => {
-      const token = "Bearer " + process.env.TOKEN;
-      config.headers.Authorization = token;
-    });
-}
 
 async function convertAudio(fileName) {
   return new Promise((resolve, reject) => {

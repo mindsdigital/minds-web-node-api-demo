@@ -18,6 +18,7 @@ const isAuthenticated = (req, res, next) => {
       try {
           const decoded = jwt.verify(token, process.env.JWT_SECRET);
           req.user = decoded;
+          console.log(`User ${decoded.username} authenticated`);
           next();
       } catch (error) {
           res.redirect('/login?error=invalid_token');

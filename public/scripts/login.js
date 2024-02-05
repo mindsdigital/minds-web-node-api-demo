@@ -176,17 +176,15 @@ async function proceedWithAuthentication() {
       method: "POST",
       body: formData,
     });
-    console.log("login");
-
+    
     if (response.ok) {
-      // TODO: Tratar o login bem-sucedido, redirecionamento, etc.
-      console.log("Login bem-sucedido");
+      window.location.href = response.url;      
     } else {
-      // TODO: Tratar a falha no login
-      console.error("Falha no login");
+      console.log("Falha no response");
     }
   } catch (error) {
     console.error("Erro durante o login:", error);
+    //window.location.href = `/login?error=unexpected_error`;
   }
 }
 

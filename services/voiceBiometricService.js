@@ -1,27 +1,34 @@
 require('dotenv').config();
-const uuid = require('uuid');
-
 const axios = require("axios").default;
-
-const MINDS_API = "https://sandbox-voice-api.minds.digital/v2.1";
+const MINDS_API = process.env.MINDS_API;
 
 const verifyEnrollment = async (document_id) => {
-  console.log("Checking if document is already enrolled");
+  console.log(`Checking if document [${document_id}] is already enrolled`);
+  
   var options = {
     method: "GET",
     url: `${MINDS_API}/enrollment/verify`,
     params: { cpf: document_id },
-    headers: { Authorization: `Bearer ${process.env.TOKEN}` },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.TOKEN}`,
+    },
   };
 
-  axios.request(options).then(function (response) {
-    console.log(response.data);
-  }).catch(function (error) {
-    console.error(error);
-  });
+  return axios
+    .request(options)
+    .then(function (response) {
+      if (response.data) {
+        console.log(response.data);
+        return response.data;
+      }
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
 };
 
-const performAuthentication = async (document_id, phone_number, audioBase64) => {
+const performAuthentication = async (document_id, phone_number, guid, audioBase64) => {
   console.log("Performing authentication");
 
   var options = {
@@ -37,7 +44,7 @@ const performAuthentication = async (document_id, phone_number, audioBase64) => 
         value: document_id,
       },
       extension: "wav",
-      external_id: uuid.v4(),
+      external_id: guid,
 
       phone_number: phone_number,
       source_name: "API",
