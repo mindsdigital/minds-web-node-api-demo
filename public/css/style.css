@@ -440,7 +440,7 @@ input:checked + .slider:before {
   top: 0;
   min-width: 250px;
   width: 80%;
-  height: 400px;
+  height: 500px;
   margin: 0 auto;
   position: fixed;
   z-index: 40001;

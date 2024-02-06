@@ -1,4 +1,4 @@
-const voiceBiometric = require("../services/voiceBiometricService");
+const voiceBiometricService = require("../services/voiceBiometricService");
 const userService = require("../services/userService");
 const uuid = require("uuid");
 const multer = require("multer");
@@ -20,7 +20,7 @@ const postLogin = async (req, res, file) => {
     const { document_id, phone_number } = await userService.getUser(username);
     console.log("Authentication with document Id:", document_id);
 
-    const voiceEnrolled = await voiceBiometric.verifyEnrollment(document_id);
+    const voiceEnrolled = await voiceBiometricService.verifyEnrollment(document_id);
     console.log("Voice enrollment status:", voiceEnrolled.status);
     console.log("Voice enrollment certified:", voiceEnrolled.certified);
     console.log("Voice enrollment enrolled:", voiceEnrolled.enrolled);
@@ -39,33 +39,49 @@ const postLogin = async (req, res, file) => {
     console.log("Audio saved");
 
     let audioBase64 = await convertAudio(fileName);
+    fs.writeFileSync(`${fileName.replace("webm","txt")}`, audioBase64);
     if (!audioBase64) {
       console.error("Error converting audio to Opus");
     }
 
     
-    const response = await voiceBiometric.performAuthentication(
+    const response = await voiceBiometricService.performAuthentication(
       document_id,
       phone_number,
       guid,
       audioBase64
     );
-    console.log("Authentication response:", response.data.recommended_action);
-    if (
-      response.data.success &&
-      response.data.result.recommended_action === "accept"
-    ) {
-      const token = jwt.sign({ username: username }, process.env.JWT_SECRET, {
-        expiresIn: "15m",
-      });
-      console.log(`JWToken: ${token}`);
 
-      res.cookie("jwt", token, { httpOnly: true });
-      res.redirect(`/account/${username}`);
-    } else {
+    if (!response.data) {
       console.log("Authentication failed");
-      res.redirect(`/login?error=${response.data.result.recommended_action}`);
+      return;
     }
+
+    console.log("Authentication response:", response.data.recommended_action);
+
+    switch (response.data.result.recommended_action) {
+      case "accept":
+        console.log("Authentication accepted");
+        const token = jwt.sign({ username: username }, process.env.JWT_SECRET, {
+          expiresIn: "15m",
+        });
+        console.log(`JWToken: ${token}`);
+  
+        res.cookie("jwt", token, { httpOnly: true });
+        res.redirect(`/account/${username}`);  
+        return;
+      case "reject":
+        console.log("Authentication rejected");
+        res.redirect("/login?error=reject");
+        return;
+      case "accept_with_risk":
+        console.log("Authentication low confidence");
+        res.redirect(`/account/${username}?=lowconfidence`);
+        return;
+      default:
+        res.redirect("/login?error=unexpected_error");
+    }
+
   } catch (error) {
     console.error(error);
     res.redirect("/login?error=unexpected_error");

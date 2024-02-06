@@ -10,6 +10,7 @@ let audioChunks = [];
 let seconds = 0;
 let intervalId;
 let isRecording = false;
+let stream;
 
 var usernameInput = document.getElementById("username");
 var audioPlayer = document.getElementById("audioPlayer");
@@ -50,7 +51,7 @@ async function startRecording() {
   logInBrowser(`User Data: ${JSON.stringify(userData)}`);
 
   try {
-    const stream = await navigator.mediaDevices.getUserMedia({
+    stream = await navigator.mediaDevices.getUserMedia({
       audio: true,
     });
 
@@ -106,6 +107,7 @@ function stopRecording() {
     startRecordingButton.hidden = true;
     stopRecordingButton.hidden = true;
     isRecording = false;
+    stream.getTracks().forEach(track => track.stop());
   }
 }
 
@@ -150,6 +152,7 @@ async function checkUsernameExists(username) {
     }
   } catch (error) {
     console.error("Error checking username existence:", error);
+    stream.getTracks().forEach(track => track.stop());
     return null;
   }
 }
@@ -184,6 +187,7 @@ async function proceedWithAuthentication() {
     }
   } catch (error) {
     console.error("Erro durante o login:", error);
+    stream.getTracks().forEach(track => track.stop());
     //window.location.href = `/login?error=unexpected_error`;
   }
 }

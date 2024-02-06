@@ -20,6 +20,17 @@
                     </div>
                     <hr />
                     <div>
+                        <span for="timeStamp" id="timeStamp" hidden>Time: 00:00:00</span>
+                        <button type="button" id="startRecording">Login</button>
+                        <button type="button" id="stopRecording" hidden>Enviar</button>
+                        <label id="instructions-login">Grave pelo menos 4 segundos para realizar sua
+                            autenticação.</label>
+                    </div>
+                    <audio id="audioPlayer" controls>
+                        Your browser does not support the audio element.
+                    </audio>
+                    <hr />
+                    <div>
                         <button id="transferBtn" type="button" onclick="makeTransfer()">Transferir</button>
                         <button id="cancelTranferBtn" type="button" onclick="closeModal()">Cancelar</button>
                     </div>

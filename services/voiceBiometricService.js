@@ -39,7 +39,6 @@ const performAuthentication = async (document_id, phone_number, guid, audioBase6
       Authorization: `Bearer ${process.env.TOKEN}`,
     },
     data: {
-      audio: audioBase64,
       document: {
         value: document_id,
       },
@@ -49,19 +48,21 @@ const performAuthentication = async (document_id, phone_number, guid, audioBase6
       phone_number: phone_number,
       source_name: "API",
       show_details: true,
+      audio: audioBase64
     },
   };
 
   return axios
     .request(options)
     .then(function (response) {
-      if (response.data) {
-        console.log(response.data);
+      if (response) {
+        console.log(response);
         return response;
       }
     })
     .catch(function (error) {
       console.error(error);
+      return response;
     });
 };
 
