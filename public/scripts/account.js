@@ -3,6 +3,7 @@ const RECORDING_LIMIT = 15; // do not exceed 30 seconds.
 const btnTransfer = document.getElementById("transferOption");
 const btnCancelTransfer = document.getElementById("cancelTranferBtn");
 const modalContainer = document.getElementById("modalContainer");
+const confirmationContainer = document.getElementById("confirmationContainer");
 const modal = document.getElementById("modal");
 
 let mediaRecorder;
@@ -22,6 +23,7 @@ startRecordingButton.addEventListener("click", startRecording);
 stopRecordingButton.addEventListener("click", stopRecording);
 stopRecordingButton.hidden = true;
 audioPlayer.hidden = true;
+confirmationContainer.style.display = "none";
 
 openModal = () => {
     modalContainer.style.display = "block";
@@ -34,6 +36,17 @@ closeModal = () => {
 };
 
 btnCancelTransfer.addEventListener("click", closeModal());
+
+verifyAmount = () => {
+  const amount = document.getElementById("amountTransfer").value;
+    const amountDecimal = removeMascaraReais(amount);
+  if (amountDecimal >= 1000) {
+    // unhide transfer button
+    confirmationContainer.style.display = "none";
+    return;
+  }
+  confirmationContainer.style.display = "block";    
+}
 
 makeTransfer = async () => {
 
