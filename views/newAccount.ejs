@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <%- include('partials/head.ejs') %>
+        <title>Faça seu Login no Minds Bank</title>
+</head>
+
+<body>
+    <header>
+        <%- include('partials/header.ejs') %>
+    </header>
+    <section class="main">
+        <div class="sidebar">
+            <h3>O que você deseja fazer hoje?</h3>
+            <a href="#">Extrato</a>
+            <a href="#" onclick="openModal()">Transferencia</a>
+            <a href="#">Empréstimo</a>
+            <a href="#">Dados Pessoais</a>
+            <a href="#">Configurações</a>
+            <hr>
+        </div><!-- sidebar -->
+
+        <div class="content">
+            <div class="section-title">
+                <p>Abra sua conta</p>
+            </div><!-- section-title-->
+            <div class="openNewAccount">
+                <h3>Dados Pessoais</h3>
+                <form>
+                    <input type="text" name="fullname" placeholder="Nome Completo">
+                    <input type="text" name="documentId" placeholder="CPF">
+                    <input type="text" name="phoneNumber" placeholder="Telefone">
+                    <input type="text" name="email" placeholder="Email">
+                    <input type="text" name="username" placeholder="Username">
+                </form>
+                <h3>Cadastro da Biometria de Voz</h3>
+            </div><!-- openNewAccount -->
+    </section>
+</body>
+</html>

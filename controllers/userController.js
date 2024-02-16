@@ -1,5 +1,6 @@
 const userService = require('../services/userService');
 const userModel = require('../models/userModel');
+const { HttpStatusCode } = require('axios');
 
 const handleGetUser = async (req, res) => {
     try {
@@ -14,6 +15,20 @@ const handleGetUser = async (req, res) => {
     }
 };
 
+const addNewUser = async (req, res) => {
+    try {
+        const user = await userService.addUser(req.params.username);
+        if (user) {
+            res.status(HttpStatusCode.Created).send(user);
+        } else {
+            res.status(HttpStatusCode.NotAcceptable).send({ message: 'Not Acceptable' });
+        }
+    } catch (error) {
+        res.status(HttpStatusCode.InternalServerError).send({ message: 'Erro inesperado' + error });
+    }
+};
+
 module.exports = { 
-    handleGetUser 
+    handleGetUser, 
+    addNewUser 
 };

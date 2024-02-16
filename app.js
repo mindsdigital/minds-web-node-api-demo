@@ -16,6 +16,7 @@ const transferRoute = require('./routes/transfer');
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(express.text());
 app.use(express.static(__dirname + '/public'));
 app.use(cookieParser());
@@ -32,34 +33,13 @@ app.get('/users/:username', userRoute);
 
 app.get('/account/:username', accountRoute);
 
+app.get('/newAccount', accountRoute);
+
+app.post('/newAccount', accountRoute);
+
 app.post('/transferFunds', transferRoute);
 
-app.post('/register', async (req, res) => {
-    const { username, phone_number, document_id } = req.body;
-
-    try {
-        const userData = await readCSV(username);
-
-        res.status(400).json({ error: 'Usuário já cadastrado.' });
-    } catch (error) {
-        if (error.message === 'Usuário não encontrado no CSV') {
-            try {
-                const newData = { username, phone_number, document_id };
-                await appendToCSV(newData);
-
-                res.status(201).json({ message: 'Usuário cadastrado com sucesso.' });
-            } catch (error) {
-                res.status(500).json({ error: 'Erro ao cadastrar usuário.' });
-            }
-        } else {
-            // Handle other errors
-            res.status(500).json({ error: 'Erro inesperado.' });
-        }
-    }
-});
-
 app.get('/authenticated', common.isAuthenticated, (req, res) => {
-    // O objeto req.user agora contém os dados do usuário, se necessário
     res.render('authenticated');
 });
 
