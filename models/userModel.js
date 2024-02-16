@@ -1,3 +1,5 @@
+const { HttpStatusCode } = require('axios');
+
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('myDemo.db');
 
@@ -54,7 +56,7 @@ const addUser = (username, document_id, phone_number, active, email, brand, prof
     let cleanEmail = email;
     let cleanBrand = removeInvalidChar(brand);
     let cleanProfile = removeInvalidChar(profile);
-    let cleanFullName = removeInvalidChar(full_name);
+    let cleanFullName = full_name;
 
     return new Promise((resolve, reject) => {
         db.run(
@@ -64,7 +66,7 @@ const addUser = (username, document_id, phone_number, active, email, brand, prof
                 if (err) {
                     reject(err);
                 } else {
-                    resolve();
+                    resolve(HttpStatusCode.Created);
                 }
             }
         );
