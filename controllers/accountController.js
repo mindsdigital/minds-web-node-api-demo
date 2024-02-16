@@ -1,8 +1,14 @@
 const accountService = require('../services/accountService');
 const userService = require('../services/userService');
 const accountModel = require('../models/accountModel');
+const multer = require("multer");
+const voiceBiometricService = require('../services/voiceBiometricService');
+
 const commons = require('../common/common');
 const { HttpStatusCode } = require('axios');
+const upload = multer({
+    storage: multer.memoryStorage(),
+  });
 
 const account = async (req, res) => {
 
@@ -31,7 +37,7 @@ const account = async (req, res) => {
     }
 };
 
-const openNewAccount = async (req, res) => {
+const openNewAccount = async (req, res, file) => {
     const username = commons.removeInvalidChar(req.body.username);
     const documentId = commons.removeInvalidChar(req.body.documentId);
     const phoneNumber = commons.removeInvalidChar(req.body.phoneNumber);
@@ -44,6 +50,10 @@ const openNewAccount = async (req, res) => {
     try {
         const result = await userService.addUser(username, documentId, phoneNumber, active, email, brand, profile, fullName);
         if (result) {
+            const isEnrolled = voiceBiometricService.verifyEnrollment(documentId);
+            if (!isEnrolled) {
+                voiceBiometricService.voiceEnrollment(documentId, phoneNumber, file.buffer.toString('base64'));
+            }
             res.sendStatus(HttpStatusCode.Created);
         } else {
             res.status(HttpStatusCode.NotAcceptable).send({ message: 'Not Acceptable' });
@@ -56,5 +66,6 @@ const openNewAccount = async (req, res) => {
 
 module.exports = {
     account,
-    openNewAccount
+    openNewAccount, 
+    upload
 };
