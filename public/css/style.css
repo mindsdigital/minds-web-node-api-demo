@@ -19,6 +19,7 @@
   --light-bg: #ffffff;           /* Light background for light mode */
   --grey-bg: #f4f4f4;            /* Gray background for light mode */
   --dark-bg: #1a1a1a;            /* Dark background for dark mode */
+  --bg-dark-gray: #e9e9e9;
 
   --security-blue: #003366;          /* Blue for security and trust */
   --security-opposite: #ffcc99;      /* Contrast for blue security and trust */
@@ -52,14 +53,13 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-image: linear-gradient(to right, var(--minds-color), var(--a5-color));
+  background-color: var(--primary-dark);
   padding: 10px;
 }
 
 header img {
   max-width: 100px;
-  height: auto;
-  border-radius: 50%;
+  height: 40px;
 }
 
 nav {
@@ -67,10 +67,24 @@ nav {
   gap: 20px;
 }
 
+.nav-menu{
+  padding: 0;
+  margin: 0;
+}
+.nav-menu li, 
+.nav-menu li a{
+  color: var(--light-text);
+  text-decoration: none;
+  font-weight: 700;
+}
+.nav-menu li a:hover{
+  text-decoration: underline;
+}
+
 /* Estilos para o conteúdo principal */
 main {
   max-width: 1400px;
-  margin: 20px auto;
+  margin: 0px auto;
   padding: 20px;
   background-color: var(--grey-bg);
 }
@@ -133,32 +147,21 @@ main {
   align-items: center;
 }
 
-textarea {
+textarea#logs {
   width: 100%;
-  padding: 8px;
-  margin-bottom: 16px;
+  height: 200px;
   box-sizing: border-box;
-  border-color: var(--blue);
+  outline: none;
+  padding: 16px;
+  border: 1px solid var(--primary-dark);
+  border-radius: 10px;
+  background-color: var(--grey-bg);
+  resize: none;
 }
 
 #instructions-login {
   color: var(--orange);
-}
-
-#loginFormWrapper {
-  padding: 10px;
-  width: 90%;
-  display: flex;
-  border: var(--blue) solid 1px;
-  border-color: var(--blue);
-  border-radius: var(--radius);
-  box-shadow:3px 3px 5px #737d90;
-}
-
-#logoRobo {
-  max-width: 30%;
-  height: auto;
-  border-radius: calc(var(--radius)*13);
+  margin-bottom: 20px;
 }
 
 #logsWrapper {
@@ -182,6 +185,7 @@ textarea {
 
 #title h1{
   color: var(--light-text);
+  margin: 0;
 }
 
 .main {
@@ -388,7 +392,7 @@ textarea {
   cursor: pointer;
   left: 0;
   position: absolute;
-  right: 0;
+  right: 2px;
   top: 0;
   transition: .4s;
 }
@@ -405,7 +409,7 @@ textarea {
 }
 
 input:checked + .slider {
-  background-color: var(--blue);
+  background-color: var(--primary-dark);
 }
 
 input:checked + .slider:before {
@@ -460,6 +464,10 @@ input:checked + .slider:before {
   padding: 18px;
 }
 
+#logsWrapper span{
+  margin-right: 10px;
+}
+
 /* Estilos para tornar a página mais responsiva em dispositivos móveis */
 @media only screen and (max-width: 600px) {
   header {
@@ -492,4 +500,82 @@ input:checked + .slider:before {
 
 article {
   padding: 20px;
+  background-color: var(--bg-dark-gray);
+}
+
+img{
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 0;
+}
+
+#loginPage{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  padding: 0px;
+  max-width: 100%;
+  height: 100vh;
+}
+
+@media (max-width: 768px){
+  #loginPage{
+    grid-template-columns: 1fr;
+  }
+  #loginPage aside{
+    display: none;
+  }
+}
+
+#loginPage aside,
+#loginPage article{
+  padding: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#loginPage aside img{
+  height: 100vh;
+  max-width: unset;
+  margin-left: -300px
+}
+@media (max-width: 960px){
+  #loginPage aside img{
+    margin-left: -400px
+  }
+}
+
+#loginPage article{
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: var(--light-bg);
+}
+
+#loginInfo{
+  margin-bottom: 40px;
+}
+
+#loginForm input{
+  outline: none;
+  padding: 16px;
+  border: 1px solid var(--primary-dark);
+  border-radius: 10px;
+  background-color: var(--grey-bg);
+}
+#loginForm input::placeholder{
+  color: var(--primary-dark);
+}
+#loginForm label{
+  font-weight: 700;
+}
+
+#timeStamp{
+  margin: 10px 0;
+}
+
+#recordButtonWrapper button{
+  margin-bottom: 20px;
 }

@@ -7,26 +7,26 @@
 </head>
 
 <body>
-    <header>
-        <%- include('partials/header.ejs') %>
-    </header>
-    <main>
-        <article>
-            <img id="logoRobo" src="/images/robo.jpeg" alt="Robo usando autenticação de voz" />
-        </article>
+    <main id="loginPage">
         <aside>
+            <img src="/images/woman-using-laptop.jpg" alt="Robo usando autenticação de voz" />
+        </aside>
+        <article>
+            <div id="loginInfo">
+                <img src="/images/minds.png" alt="Minds Digital" />
+            </div>
             <div id="loginFormWrapper">
                 <form id="loginForm">
                     <div>
-                        <label for="username">Username:</label>
+                        <label for="username">Username</label>
                         <input type="text" id="username" name="username" autocomplete="false" required />
                     </div>
                     <div id="recordButtonWrapper">
                         <span for="timeStamp" id="timeStamp" hidden>Time: 00:00:00</span>
                         <button type="button" id="startRecording">Login</button>
                         <button type="button" id="stopRecording" hidden>Enviar</button>
-                        <label id="instructions-login">Grave pelo menos 4 segundos para realizar sua
-                            autenticação.</label>
+                        <span id="instructions-login">Grave pelo menos 4 segundos para realizar sua
+                            autenticação.</span>
                     </div>
                     <div>
                         <button id="submit" type="submit" hidden>Login</button>
@@ -39,7 +39,7 @@
                         </label>
                     </div>
                     <div>
-                        <textarea id="logs" name="logs" rows="10" cols="120" hidden>LOGS:</textarea>
+                        <textarea id="logs" name="logs" hidden>LOGS:</textarea>
                     </div>
                     <div>
                         <audio id="audioPlayer" controls>
@@ -48,12 +48,8 @@
                     </div>
                 </form>
             </div>
-        </aside>
-
+        </article>
     </main>
-    <footer>
-        <p>Informações de Contato</p>
-    </footer>
     <script type="text/javascript" src="/scripts/login.js" defer></script>
 </body>
 
