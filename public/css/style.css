@@ -111,11 +111,11 @@ button {
   width: 100%;
   font-size: 16px;
   font-weight: 700;
+  transition: all 0.3s ease-in-out;
 }
 
 button:hover {
-  background-color: var(--blue-hover);
-  transition: all 0.3s ease-in-out;
+  background-color: var(--minds-color);
 }
 
 form {
@@ -562,7 +562,7 @@ img{
   background-color: var(--grey-bg);
 }
 #loginForm input::placeholder{
-  color: var(--primary-dark);
+  color: var(--bg-gray);
 }
 #loginForm label{
   font-weight: 700;
@@ -584,4 +584,17 @@ img{
 }
 #audioWaveLottie.active{
   display: block;
+}
+
+.double-buttons{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.btn-main{
+  background-color: var(--minds-color);
+}
+.btn-main:hover{
+  background-color: var(--primary-light);
 }

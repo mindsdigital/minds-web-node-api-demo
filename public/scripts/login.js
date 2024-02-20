@@ -149,6 +149,7 @@ async function checkUsernameExists(username) {
     } else if (response.status === 404) {
       return null;
     } else {
+      alert("Failed to check username existence.");
       throw new Error(
         `Failed to check username existence. Status: ${response.status}`
       );

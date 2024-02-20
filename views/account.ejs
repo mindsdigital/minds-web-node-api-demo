@@ -3,7 +3,7 @@
 
 <head>
     <%- include('partials/head.ejs') %>
-        <title>Faça seu Login no Minds Bank</title>
+    <title>Faça seu Login no Minds Bank</title>
 </head>
 
 <body>
@@ -71,17 +71,19 @@
                             </div><!-- section-content -->
             </div><!-- content -->
     </section><!-- main -->
+
     <script type="text/javascript">
         const incoming = document.getElementById('incomingBox');
         const outgoing = document.getElementById('outgoingBox');
         const totals = document.getElementById('totalsBox');
-        incomingValue = <%=data.incomingTotal%>;
-        outgoingValue = <%=data.outgoingTotal%>;
+        incomingValue = <%= data.incomingTotal %>;
+        outgoingValue = <%= data.outgoingTotal %>;
         totalsValue = incomingValue - outgoingValue;
         incoming.innerHTML = `${incomingValue.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}`;
         outgoing.innerHTML = `${outgoingValue.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}`;
         totals.innerHTML = `${totalsValue.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}`;
     </script>
     <script type="text/javascript" src="/scripts/account.js" defer></script>
+
 </body>
 </html>

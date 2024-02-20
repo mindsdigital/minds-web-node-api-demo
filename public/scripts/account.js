@@ -38,6 +38,7 @@ closeModal = () => {
 btnCancelTransfer.addEventListener("click", closeModal());
 
 verifyAmount = () => {
+  debugger;
   const amount = document.getElementById("amountTransfer").value;
     const amountDecimal = removeMascaraReais(amount);
   if (amountDecimal >= 1000) {
