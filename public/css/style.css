@@ -35,7 +35,7 @@
   --minds-color: #0055FF;
   --a5-color: #F78215;
 
-  --radius: 10px;
+  --radius-10: 10px;
   --border-color: #eaeaea;
   --border: 1px solid var(--border-color);
 }
@@ -103,11 +103,14 @@ aside{
 
 button {
   background-color: var(--primary-dark);
-  color: white;
-  padding: 10px 15px;
+  color: var(--light-bg);
+  padding: 16px;
   border: none;
-  border-radius: var(--radius);
+  border-radius: var(--radius-10);
   cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 700;
 }
 
 button:hover {
@@ -116,17 +119,15 @@ button:hover {
 }
 
 form {
-  width: 70%;
+  max-width: 70%;
   margin: 10px auto;
 }
 
 input {
   width: 100%;
-  padding: 8px;
   margin-bottom: 16px;
-  border-color: var(--blue);
   font-size: 15px;
-  border-radius: var(--radius);
+  box-sizing: border-box;
 }
 
 label {
@@ -154,7 +155,7 @@ textarea#logs {
   outline: none;
   padding: 16px;
   border: 1px solid var(--primary-dark);
-  border-radius: 10px;
+  border-radius: var(--radius-10);
   background-color: var(--grey-bg);
   resize: none;
 }
@@ -248,7 +249,7 @@ textarea#logs {
   padding: 12px;
   margin: 12px;
   margin-top: 4px;
-  border-radius: var(--radius);
+  border-radius: var(--radius-10);
 }
 
 .dashboard {
@@ -259,7 +260,7 @@ textarea#logs {
   margin-top: 4px;
   font-size: 20px;
   font-weight: bold;
-  border-radius: var(--radius);
+  border-radius: var(--radius-10);
   justify-content: space-around;
   text-align: center;
 }
@@ -268,7 +269,7 @@ textarea#logs {
   background-color: var(--dashboard-incoming);
   padding: 24px;
   margin: 8px;
-  border-radius: var(--radius);
+  border-radius: var(--radius-10);
 }
 
 .outgoingBox {
@@ -449,8 +450,8 @@ input:checked + .slider:before {
   position: fixed;
   z-index: 40001;
   background: #fff;
-  border-radius: var(--radius);
-  box-shadow: 0px 0px var(--radius) #000;
+  border-radius: var(--radius-10);
+  box-shadow: 0px 0px var(--radius-10) #000;
   margin-top: 30px;
   margin-left: 10%;
   opacity: 1;
@@ -490,11 +491,6 @@ input:checked + .slider:before {
   article {
     display: flex;
     flex-direction: row-reverse;
-  }
-  #logoRobo {
-    max-width: 30%;
-    height: auto;
-    border-radius: calc(var(--radius)*8);
   }
 }
 
@@ -562,7 +558,7 @@ img{
   outline: none;
   padding: 16px;
   border: 1px solid var(--primary-dark);
-  border-radius: 10px;
+  border-radius: var(--radius-10);
   background-color: var(--grey-bg);
 }
 #loginForm input::placeholder{
@@ -578,4 +574,14 @@ img{
 
 #recordButtonWrapper button{
   margin-bottom: 20px;
+}
+
+#audioPlayer{
+  width: 100%;
+}
+#audioWaveLottie{
+  display: none;
+}
+#audioWaveLottie.active{
+  display: block;
 }
