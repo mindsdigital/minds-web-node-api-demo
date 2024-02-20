@@ -18,7 +18,7 @@ var startRecordingButton = document.getElementById("startRecording");
 var stopRecordingButton = document.getElementById("stopRecording");
 var checkboxLogs = document.getElementById("ckbLogs");
 var timestamp = document.getElementById("timeStamp");
-let audioWaveLottie = document.getElementById("audioWaveLottie")
+let audioWaveLottie = document.getElementById("audioWaveLottie");
 var loginButton = document.getElementById("submit");
 var logs = document.getElementById("logs");
 
@@ -56,8 +56,8 @@ async function startRecording() {
       audio: true,
     });
 
-    timestamp.hidden = false;
     audioWaveLottie.classList.add("active");
+    timestamp.hidden = false;
     audioPlayer.hidden = false;
 
     mediaRecorder = new MediaRecorder(stream);
@@ -86,7 +86,6 @@ async function startRecording() {
     mediaRecorder.start();
     startRecordingButton.hidden = true;
     stopRecordingButton.hidden = true;
-    audioWaveLottie.classList.remove("active");
     stopRecordingButton.disabled = false;
     isRecording = true;
   } catch (error) {

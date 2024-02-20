@@ -9,6 +9,7 @@
   --yellow-hover: #ffd133;       /* Hover effect for yellow */
   --red-hover: #ff6172;          /* Hover effect for red */
   --green: #045407;
+  --badge-green: #4caf50;
 
   --light-text: #fff;            /* Light text for dark backgrounds */
   --text: #252525;               /* Main text color */
@@ -33,6 +34,7 @@
   --dashboard-totals: #BBE5FF;       /* Blue box for totals */
 
   --minds-color: #0055FF;
+  --minds-color-opacity: #0055FF60;
   --a5-color: #F78215;
 
   --radius-10: 10px;
@@ -40,6 +42,10 @@
   --border: 1px solid var(--border-color);
 }
 
+
+*{
+  box-sizing: border-box;
+}
 /* Estilos gerais para tornar a página responsiva */
 body {
   font-family: Arial, sans-serif;
@@ -176,6 +182,7 @@ textarea#logs {
 }
 
 #timeStamp {
+  margin: 10px 0 -40px;
   color: var(--font);
   font-size: small;
 }
@@ -224,7 +231,7 @@ textarea#logs {
   display: block;
   color: var(--security-blue);
   text-decoration: none;
-  transition: color 0.3s ease-in-out;
+  transition: all ease 0.7s;
   padding: 12px 12px;
 }
 
@@ -233,9 +240,8 @@ textarea#logs {
   font-weight: bold;
   text-decoration: none;
   padding: 12px 12px;
-  background-color:var(--modern-yellow-hover);
-  color: var(--security-blue);
-  transition: ease-in 0.2s;
+  color: var(--light-bg);
+  box-shadow: inset 50em 0 0 0 var(--primary-dark);
 }
 
 .content {
@@ -256,8 +262,7 @@ textarea#logs {
   display: flex;;
   background-color: white;
   padding: 8px;
-  margin: 8px;
-  margin-top: 4px;
+  margin: 12px;
   font-size: 20px;
   font-weight: bold;
   border-radius: var(--radius-10);
@@ -290,88 +295,95 @@ textarea#logs {
   display: flex;
   flex-direction: column;
   background-color: white;
-  padding: 12px;
   margin: 12px;
-  border-radius: var(--radius);
+  border-radius: var(--radius-10);
 }
 
 .section-content hr {
   width: 100%;
 }
 
-.saidas-extrato,.entradas-extrato{
-  width:100%;
-  display:flex;
-  justify-content: space-between;
+.table-titles,
+.saidas-extrato,
+.entradas-extrato{
+  display: grid;
+  grid-template-columns: 15% 37% 25% 13%;
+  gap: 50px;
+}
+
+.saidas-extrato,
+.entradas-extrato{
   font-size: 14px;
-  padding: 4px;
+  padding: 12px;
+  border-top: 1px solid var(--bg-gray);
 }
 
-.saidas-extrato .amount,.saidas-extrato .transaction_type{
-  width: 15%;
+.saidas-extrato .transaction_type,
+.transacao-negativa,
+.entradas-extrato .transaction_type,
+.transacao-entrada,
+.transacao-positiva{
+  border-radius: 15px;
+  max-width: fit-content;
+  padding: 5px 20px;
+}
+
+.saidas-extrato .transaction_type,
+.transacao-negativa{
+  background-color: var(--red);
+  border: 1px solid var(--red-hover);
+  color:var(--light-text);
+}
+
+.saidas-extrato .amount,
+.entradas-extrato .amount{
   text-align: right;
   padding: 3px;
-  color: var(--red);
 }
 
-.entradas-extrato .amount,.entradas-extrato .transaction_type{
-  width: 15%;
-  text-align: right;
-  padding: 3px;
-  color: var(--green);
+.entradas-extrato .transaction_type,
+.transacao-entrada,
+.transacao-positiva{
+  background-color: var(--badge-green);
+  color:var(--light-text);
+  border: 1px solid var(--green);
 }
 
-.saidas-extrato .transaction_type{
-  width: 15%;
-  text-align: left;
-  padding: 3px;
-  color: var(--red);
-}
-
+.saidas-extrato .transaction_type,
 .entradas-extrato .transaction_type{
-  width: 15%;
   text-align: left;
-  padding: 3px;
-  color: var(--green);
 }
 
 .transacao-entrada {
-  width: 30%;
   font-weight: bold;
-  color: var(--green);
-
 }
 
-.transacao-saida {
-  width: 30%;
-  font-weight:normal;
-  color: var(--bold-text);
-}
-
-.transaction_description {
-  width: 40%;
-  font-weight:normal;
-  color: var(--bold-text);
-}
-
+.transacao-saida,
+.transaction_description,
 .transaction_date {
-  width: 15%;
   font-weight:normal;
   color: var(--bold-text);
 }
 
 .transacao-positiva {
-  width: 15%;
   font-weight:normal;
   text-align: right;
-  color: var(--green);
 }
 
 .transacao-negativa {
-  width: 15%;
   font-weight:normal;
   text-align: right;
-  color: var(--red);
+}
+
+.table-titles{
+  padding: 20px 12px;
+  background-color: var(--bg-dark-gray);
+  border-top-left-radius: var(--radius-10);
+  border-top-right-radius: var(--radius-10);
+  font-weight: 700;
+}
+.table-titles div:last-child{
+  text-align: right;
 }
 
 
@@ -564,16 +576,21 @@ img{
 #loginForm input::placeholder{
   color: var(--bg-gray);
 }
+#loginForm input:focus{
+  border-color: var(--minds-color);
+  box-shadow: 0px 0px 35px -5px var(--minds-color-opacity);
+}
 #loginForm label{
   font-weight: 700;
 }
 
-#timeStamp{
-  margin: 10px 0;
-}
-
 #recordButtonWrapper button{
   margin-bottom: 20px;
+}
+
+#stopRecording{
+  margin-top: -40px;
+  z-index: 2;
 }
 
 #audioPlayer{
@@ -581,6 +598,7 @@ img{
 }
 #audioWaveLottie{
   display: none;
+  z-index: 1;
 }
 #audioWaveLottie.active{
   display: block;

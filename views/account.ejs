@@ -3,7 +3,7 @@
 
 <head>
     <%- include('partials/head.ejs') %>
-    <title>Faça seu Login no Minds Bank</title>
+    <title>Minha conta - Minds Banks</title>
 </head>
 
 <body>
@@ -43,6 +43,12 @@
                 </div>
             </div>
             <div class="section-content">
+                <div class="table-titles">
+                    <div>Data da Transação</div>
+                    <div>Descrição</div>
+                    <div>Tipo de Transação</div>
+                    <div>Valor</div>
+                </div>
                 <% if (data.transactions && data.transactions.length> 0) { %>
                     <% data.transactions.forEach((transaction)=> { %>
                         <% if (transaction.transaction_direction.trim()==='outgoing' ) { %>
@@ -50,20 +56,19 @@
                                 <% } else { %>
                                     <div class="entradas-extrato">
                                         <% } %>
-                                            <div class="transaction_type">
-                                                <%= transaction.transaction_type %>
+                                            <div class="transaction_date">
+                                                <%= transaction.transaction_date %>
                                             </div>
                                             <div class="transaction_description">
                                                 <%= transaction.description %>
                                             </div>
-                                            <div class="transaction_date">
-                                                <%= transaction.transaction_date %>
+                                            <div class="transaction_type">
+                                                <%= transaction.transaction_type %>
                                             </div>
                                             <div class="amount">
                                                 <%= transaction.amount.toLocaleString('pt-br',{style: 'currency' , currency: 'BRL' }) %>
                                             </div>
                                     </div>
-                                    <hr>
                                     <% }) %>
                                     <% } else { %>
                                         <div>No transactions</div>
