@@ -18,6 +18,7 @@ var startRecordingButton = document.getElementById("startRecording");
 var stopRecordingButton = document.getElementById("stopRecording");
 var checkboxLogs = document.getElementById("ckbLogs");
 var timestamp = document.getElementById("timeStamp");
+let audioWaveLottie = document.getElementById("audioWaveLottie");
 var loginButton = document.getElementById("submit");
 var logs = document.getElementById("logs");
 
@@ -55,6 +56,7 @@ async function startRecording() {
       audio: true,
     });
 
+    audioWaveLottie.classList.add("active");
     timestamp.hidden = false;
     audioPlayer.hidden = false;
 
@@ -146,6 +148,7 @@ async function checkUsernameExists(username) {
     } else if (response.status === 404) {
       return null;
     } else {
+      alert("Failed to check username existence.");
       throw new Error(
         `Failed to check username existence. Status: ${response.status}`
       );

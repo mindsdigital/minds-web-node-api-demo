@@ -8,8 +8,9 @@
                     <div>
                         <label for="userTo">Favoritos:</label>
                         <select id="userTo" name="userTo" autocomplete=false required>
+                            <option value=""> --- </option>
                             <% data.listOfUsers.forEach((user)=> { %>
-                                <option value="<%= user.username %>"><%= user.full_name %></option>
+                                <option value="<%= user.username %>"><%= user.username %></option>
                                 <% })%>
                         </select>
                     </div>
@@ -30,8 +31,8 @@
                         Your browser does not support the audio element.
                     </audio>
                     <hr />
-                    <div>
-                        <button id="transferBtn" type="button" onclick="makeTransfer()">Transferir</button>
+                    <div class="double-buttons">
+                        <button id="transferBtn" class="btn-main" type="button" onclick="makeTransfer()">Transferir</button>
                         <button id="cancelTranferBtn" type="button" onclick="closeModal()">Cancelar</button>
                     </div>
                 </form>
