@@ -10,7 +10,7 @@
     <header>
         <%- include('partials/header.ejs') %>
     </header>
-    <section class="main">
+    <section class="main page-account">
         <%- include('partials/modalTransfer.ejs') %>
         <div class="sidebar">
             <h3>O que você deseja fazer hoje?</h3>
@@ -30,15 +30,15 @@
             </div><!-- section-title-->
             <div class="dashboard">
                 <div class="incomingBox">
-                    Entradas
+                    <span>Entradas</span>
                     <div  id="incomingBox">R$00.000,00</div>
                 </div>
                 <div class="outgoingBox">
-                    Saídas
+                    <span>Saídas</span>
                     <div  id="outgoingBox">R$00.000,00</div>
                 </div>
                 <div class="totalsBox">
-                    Total
+                    <span>Total</span>
                     <div  id="totalsBox">R$00.000,00</div>
                 </div>
             </div>
@@ -66,7 +66,11 @@
                                                 <%= transaction.transaction_type %>
                                             </div>
                                             <div class="amount">
-                                                <%= transaction.amount.toLocaleString('pt-br',{style: 'currency' , currency: 'BRL' }) %>
+                                                <% if (transaction.transaction_direction.trim()==='outgoing') { %>
+                                                    <%= '- ' + transaction.amount.toLocaleString('pt-br',{style: 'currency' , currency: 'BRL' }) %>
+                                                <% } else { %>
+                                                    <%= '+ ' + transaction.amount.toLocaleString('pt-br',{style: 'currency' , currency: 'BRL' }) %>
+                                                <% } %>
                                             </div>
                                     </div>
                                     <% }) %>

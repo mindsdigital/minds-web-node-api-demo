@@ -8,6 +8,7 @@
   --blue-hover: #66a0ff;         /* Hover effect for blue */
   --yellow-hover: #ffd133;       /* Hover effect for yellow */
   --red-hover: #ff6172;          /* Hover effect for red */
+  --red-darken: #b71c1c ;
   --green: #045407;
   --badge-green: #4caf50;
 
@@ -129,11 +130,26 @@ form {
   margin: 10px auto;
 }
 
-input {
+input, 
+select{
+  position: relative;
   width: 100%;
   margin-bottom: 16px;
   font-size: 15px;
   box-sizing: border-box;
+  outline: none;
+  padding: 16px;
+  border: 1px solid var(--primary-dark);
+  border-radius: var(--radius-10);
+  background-color: var(--grey-bg);
+}
+
+input::placeholder{
+  color: var(--bg-gray);
+}
+input:focus{
+  border-color: var(--minds-color);
+  box-shadow: 0px 0px 35px -5px var(--minds-color-opacity);
 }
 
 label {
@@ -197,7 +213,8 @@ textarea#logs {
 }
 
 .main {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 5fr;
   flex-wrap: wrap;
   height: 100%;
 }
@@ -214,7 +231,6 @@ textarea#logs {
   display: flex;
   flex-direction: column;
   height: 100%;
-  width: 15%;
   color: var(--security-blue);
   background-color: var(--light-bg);
 }
@@ -244,9 +260,7 @@ textarea#logs {
   box-shadow: inset 50em 0 0 0 var(--primary-dark);
 }
 
-.content {
-  width: 85%;
-  height: 100%;
+.page-account .content {
   background-color: var(--bg-gray);
 }
 
@@ -259,8 +273,9 @@ textarea#logs {
 }
 
 .dashboard {
-  display: flex;;
-  background-color: white;
+  display: grid;;
+  grid-template-columns: repeat(3, 1fr);
+  background-color: var(--light-bg);
   padding: 8px;
   margin: 12px;
   font-size: 20px;
@@ -270,26 +285,23 @@ textarea#logs {
   text-align: center;
 }
 
-.incomingBox {
-  background-color: var(--dashboard-incoming);
-  padding: 24px;
-  margin: 8px;
-  border-radius: var(--radius-10);
+.dashboard span{
+  font-weight: 400;
+  font-size: 16px;
 }
 
-.outgoingBox {
-  background-color: var(--dashboard-outgoing);
+.incomingBox,
+.outgoingBox,
+.totalsBox{
   padding: 24px;
   margin: 8px;
-  border-radius: var(--radius);
 }
 
-.totalsBox {
-  background-color: var(--dashboard-totals);
-  padding: 24px;
-  margin: 8px;
-  border-radius: var(--radius);
+.incomingBox,
+.outgoingBox{
+  border-right: 1px solid var(--bg-gray);
 }
+
 
 .section-content {
   display: flex;
@@ -307,8 +319,9 @@ textarea#logs {
 .saidas-extrato,
 .entradas-extrato{
   display: grid;
-  grid-template-columns: 15% 37% 25% 13%;
+  grid-template-columns: 1fr 2fr 1fr 1fr;
   gap: 50px;
+  align-items: center;
 }
 
 .saidas-extrato,
@@ -331,7 +344,7 @@ textarea#logs {
 .saidas-extrato .transaction_type,
 .transacao-negativa{
   background-color: var(--red);
-  border: 1px solid var(--red-hover);
+  border: 2px solid var(--red-darken);
   color:var(--light-text);
 }
 
@@ -345,8 +358,8 @@ textarea#logs {
 .transacao-entrada,
 .transacao-positiva{
   background-color: var(--badge-green);
+  border: 2px solid var(--green);
   color:var(--light-text);
-  border: 1px solid var(--green);
 }
 
 .saidas-extrato .transaction_type,
@@ -442,11 +455,10 @@ input:checked + .slider:before {
   width: 100%;
   height: 100vh;
   position: fixed;
-  opacity: 0.95;
+  opacity: 1;
   background: #222;
-  z-index: 40000;
+  z-index: 100;
   top: 0;
-  left: 0;
   overflow: hidden;
   animation-name: fadeIn_Container;
   animation-duration: 1s;
@@ -454,18 +466,14 @@ input:checked + .slider:before {
 
 .modal{
   display: none;
-  top: 0;
   min-width: 250px;
-  width: 80%;
+  width: 60%;
   height: 500px;
   margin: 0 auto;
-  position: fixed;
-  z-index: 40001;
+  z-index: 101;
   background: #fff;
   border-radius: var(--radius-10);
   box-shadow: 0px 0px var(--radius-10) #000;
-  margin-top: 30px;
-  margin-left: 10%;
   opacity: 1;
   animation-name: fadeIn_Modal;
   animation-duration: 0.8s;
@@ -473,7 +481,8 @@ input:checked + .slider:before {
 
 .pickUserTransfer {
   text-align: center;
-  color: var(--minds-color);
+  color: var(--primary-dark);
+  font-weight: 700;
   padding: 18px;
 }
 
@@ -565,21 +574,6 @@ img{
 #loginInfo{
   margin-bottom: 40px;
 }
-
-#loginForm input{
-  outline: none;
-  padding: 16px;
-  border: 1px solid var(--primary-dark);
-  border-radius: var(--radius-10);
-  background-color: var(--grey-bg);
-}
-#loginForm input::placeholder{
-  color: var(--bg-gray);
-}
-#loginForm input:focus{
-  border-color: var(--minds-color);
-  box-shadow: 0px 0px 35px -5px var(--minds-color-opacity);
-}
 #loginForm label{
   font-weight: 700;
 }
@@ -616,3 +610,9 @@ img{
 .btn-main:hover{
   background-color: var(--primary-light);
 }
+
+.page-account{
+  overflow-x: hidden;
+  background-color: var(--bg-gray);
+}
+

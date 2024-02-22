@@ -38,18 +38,21 @@ closeModal = () => {
 btnCancelTransfer.addEventListener("click", closeModal());
 
 verifyAmount = () => {
-  debugger;
   const amount = document.getElementById("amountTransfer").value;
-    const amountDecimal = removeMascaraReais(amount);
+  const amountDecimal = removeMascaraReais(amount);
+
+  console.log('cheguei')
   if (amountDecimal >= 1000) {
     // unhide transfer button
-    confirmationContainer.style.display = "none";
+    confirmationContainer.style.display = "block";
     return;
   }
-  confirmationContainer.style.display = "block";    
+  confirmationContainer.style.display = "none";    
 }
 
 makeTransfer = async () => {
+
+  verifyAmount();
 
   const userTo = document.getElementById("userTo").value;
   const amount = document.getElementById("amountTransfer").value;
