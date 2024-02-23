@@ -4,7 +4,7 @@
 
 Este é um projeto exemplo de como a biometria de voz pode ser utilizada dentro do contexto financeiro de um banco, tanto para login como validação de uma transferência.
 
-### Getting started
+### Iniciando
 
 Para executar o projeto, será necessário os seguintes programas:
 
