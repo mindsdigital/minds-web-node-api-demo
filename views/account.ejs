@@ -10,7 +10,7 @@
     <header>
         <%- include('partials/header.ejs') %>
     </header>
-    <section class="main">
+    <section class="main page-account">
         <%- include('partials/modalTransfer.ejs') %>
         <div class="sidebar">
             <h3>O que você deseja fazer hoje?</h3>
@@ -29,17 +29,32 @@
                 <p>Movimentações de Fevereiro de 2024</p>
             </div><!-- section-title-->
             <div class="dashboard">
-                <div class="incomingBox">
-                    Entradas
-                    <div  id="incomingBox">R$00.000,00</div>
+                <div class="incomingBox d-flex">
+                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19V5m0 14-4-4m4 4 4-4"/>
+                    </svg>
+                    <div>
+                        <span>Entradas</span>
+                        <div id="incomingBox">R$00.000,00</div>
+                    </div>
                 </div>
-                <div class="outgoingBox">
-                    Saídas
-                    <div  id="outgoingBox">R$00.000,00</div>
+                <div class="outgoingBox d-flex">
+                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v13m0-13 4 4m-4-4-4 4"/>
+                    </svg>
+                    <div>
+                        <span>Saídas</span>
+                        <div id="outgoingBox">R$00.000,00</div>
+                    </div>
                 </div>
-                <div class="totalsBox">
-                    Total
-                    <div  id="totalsBox">R$00.000,00</div>
+                <div class="totalsBox d-flex">
+                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 17.3a5 5 0 0 0 2.6 1.7c2.2.6 4.5-.5 5-2.3.4-2-1.3-4-3.6-4.5-2.3-.6-4-2.7-3.5-4.5.5-1.9 2.7-3 5-2.3 1 .2 1.8.8 2.5 1.6m-3.9 12v2m0-18v2.2"/>
+                    </svg>
+                    <div>
+                        <span>Total</span>
+                        <div id="totalsBox">R$00.000,00</div>
+                    </div>
                 </div>
             </div>
             <div class="section-content">
@@ -66,12 +81,16 @@
                                                 <%= transaction.transaction_type %>
                                             </div>
                                             <div class="amount">
-                                                <%= transaction.amount.toLocaleString('pt-br',{style: 'currency' , currency: 'BRL' }) %>
+                                                <% if (transaction.transaction_direction.trim()==='outgoing') { %>
+                                                    <%= '- ' + transaction.amount.toLocaleString('pt-br',{style: 'currency' , currency: 'BRL' }) %>
+                                                <% } else { %>
+                                                    <%= '+ ' + transaction.amount.toLocaleString('pt-br',{style: 'currency' , currency: 'BRL' }) %>
+                                                <% } %>
                                             </div>
                                     </div>
                                     <% }) %>
                                     <% } else { %>
-                                        <div>No transactions</div>
+                                        <div class="no-transactions">No transactions</div>
                                     <% } %>
                             </div><!-- section-content -->
             </div><!-- content -->

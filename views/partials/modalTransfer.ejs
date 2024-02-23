@@ -5,7 +5,7 @@
             <hr>
                 <form>
                     <div class="pickUserTransfer">Escolha para quem você deseja enviar recursos:</div>
-                    <div>
+                    <div class="selectFav">
                         <label for="userTo">Favoritos:</label>
                         <select id="userTo" name="userTo" autocomplete=false required>
                             <option value=""> --- </option>
@@ -13,24 +13,26 @@
                                 <option value="<%= user.username %>"><%= user.username %></option>
                                 <% })%>
                         </select>
+                        <span id="errorFavorite" class="errorLabel">Por favor, escolha o favorito para fazer a transferência</span>
                     </div>
                     <br />
                     <div>
                         <label for="amountTransfer">Valor:</label>
                         <input type="text" name="amountTransfer" id="amountTransfer" placeholder="Valor de Transferencia" autocomplete=false oninput="mascaraReais(event);" required>
+                        <span id="errorValue" class="errorLabel">Por favor, preencha o campo de valor</span>
                     </div>
-                    <hr />
                     <div id="confirmationContainer">
+                        <button type="button" id="startRecording">Iniciar gravação</button>
+
                         <span for="timeStamp" id="timeStamp" hidden>Time: 00:00:00</span>
-                        <button type="button" id="startRecording">Login</button>
+                        <dotlottie-player id="audioWaveLottie" src="https://lottie.host/dac946d6-3229-4d3a-938f-7265b84fed74/twarfTLGTY.json" background="transparent" speed="1" style="height: 150px;" loop autoplay></dotlottie-player>
                         <button type="button" id="stopRecording" hidden>Enviar</button>
-                        <label id="instructions-login">Grave pelo menos 4 segundos para realizar sua
-                            autenticação.</label>
+
+                        <label id="instructions-login">Grave pelo menos 4 segundos para realizar sua autenticação.</label>
                     </div>
-                    <audio id="audioPlayer" controls>
+                    <!-- <audio id="audioPlayer" controls>
                         Your browser does not support the audio element.
-                    </audio>
-                    <hr />
+                    </audio> -->
                     <div class="double-buttons">
                         <button id="transferBtn" class="btn-main" type="button" onclick="makeTransfer()">Transferir</button>
                         <button id="cancelTranferBtn" type="button" onclick="closeModal()">Cancelar</button>
