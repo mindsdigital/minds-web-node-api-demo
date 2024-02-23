@@ -137,16 +137,9 @@ button {
   background-color: var(--primary-dark);
   color: var(--light-bg);
   padding: 16px;
-  color: var(--light-bg);
-  padding: 16px;
   border: none;
   border-radius: var(--radius-10);
-  border-radius: var(--radius-10);
   cursor: pointer;
-  width: 100%;
-  font-size: 16px;
-  font-weight: 700;
-  transition: all 0.3s ease-in-out;
   width: 100%;
   font-size: 16px;
   font-weight: 700;
@@ -155,11 +148,9 @@ button {
 
 button:hover {
   background-color: var(--minds-color);
-  background-color: var(--minds-color);
 }
 
 form {
-  max-width: 70%;
   max-width: 70%;
   margin: 10px auto;
 }
@@ -206,17 +197,9 @@ main {
 }
 
 textarea#logs {
-textarea#logs {
   width: 100%;
   height: 200px;
-  height: 200px;
   box-sizing: border-box;
-  outline: none;
-  padding: 16px;
-  border: 1px solid var(--primary-dark);
-  border-radius: var(--radius-10);
-  background-color: var(--grey-bg);
-  resize: none;
   outline: none;
   padding: 16px;
   border: 1px solid var(--primary-dark);
@@ -227,7 +210,6 @@ textarea#logs {
 
 #instructions-login {
   color: var(--orange);
-  margin-bottom: 20px;
   margin-bottom: 20px;
 }
 
@@ -243,7 +225,6 @@ textarea#logs {
 
 #timeStamp {
   margin: 10px 0 -40px;
-  margin: 10px 0 -40px;
   color: var(--font);
   font-size: small;
 }
@@ -254,7 +235,6 @@ textarea#logs {
 
 #title h1{
   color: var(--light-text);
-  margin: 0;
   margin: 0;
 }
 
@@ -284,7 +264,7 @@ textarea#logs {
 .sidebar h3 {
   padding: 5px;
   text-align: center;
-  color: var(--moder);
+  color: var(--primary-dark);
   font-size: 16px;
 }
 
@@ -323,10 +303,8 @@ textarea#logs {
   background-color: var(--light-bg);
   padding: 8px;
   margin: 12px;
-  margin: 12px;
   font-size: 20px;
   font-weight: bold;
-  border-radius: var(--radius-10);
   border-radius: var(--radius-10);
   justify-content: space-around;
   text-align: center;
@@ -355,7 +333,6 @@ textarea#logs {
   flex-direction: column;
   background-color: white;
   margin: 12px;
-  border-radius: var(--radius-10);
   border-radius: var(--radius-10);
 }
 
@@ -395,8 +372,6 @@ textarea#logs {
   color:var(--light-text);
 }
 
-.saidas-extrato .amount,
-.entradas-extrato .amount{
 .saidas-extrato .amount,
 .entradas-extrato .amount{
   text-align: right;
@@ -443,7 +418,6 @@ textarea#logs {
   padding: var(--padding-24px);;
   background-color: var(--bg-dark-gray);
   border-top-left-radius: var(--radius-10);
-  border-top-right-radius: var(--radius-10);
   font-weight: 700;
 }
 .table-titles div:last-child{
@@ -470,7 +444,6 @@ textarea#logs {
   left: 0;
   position: absolute;
   right: 2px;
-  right: 2px;
   top: 0;
   transition: .4s;
 }
@@ -487,7 +460,6 @@ textarea#logs {
 }
 
 input:checked + .slider {
-  background-color: var(--primary-dark);
   background-color: var(--primary-dark);
 }
 
@@ -704,7 +676,7 @@ img{
 }
 
 .no-transactions{
-  padding: var(--padding-24px);;
+  padding: var(--padding-24px);
 }
 
 hr{
