@@ -13,16 +13,22 @@ let intervalId;
 let isRecording = false;
 let stream;
 
-var usernameInput;
-var audioPlayer = document.getElementById("audioPlayer");
+// var audioPlayer = document.getElementById("audioPlayer");
+var timestamp = document.getElementById("timeStamp");
 var startRecordingButton = document.getElementById("startRecording");
 var stopRecordingButton = document.getElementById("stopRecording");
 var loginButton = document.getElementById("startRecording");
+let audioWaveLottie = document.getElementById("audioWaveLottie");
+var errorFavorite = document.getElementById("errorFavorite");
+var errorValue = document.getElementById("errorValue");
+const userToInput = document.getElementById("userTo");
+const amountInput = document.getElementById("amountTransfer");
 
 startRecordingButton.addEventListener("click", startRecording);
 stopRecordingButton.addEventListener("click", stopRecording);
 stopRecordingButton.hidden = true;
-audioPlayer.hidden = true;
+
+timestamp.hidden = true;
 confirmationContainer.style.display = "none";
 
 openModal = () => {
@@ -41,25 +47,26 @@ verifyAmount = () => {
   const amount = document.getElementById("amountTransfer").value;
   const amountDecimal = removeMascaraReais(amount);
 
-  console.log('cheguei')
   if (amountDecimal >= 1000) {
     // unhide transfer button
     confirmationContainer.style.display = "block";
     return;
   }
-  confirmationContainer.style.display = "none";    
+  confirmationContainer.style.display = "none"; 
 }
 
 makeTransfer = async () => {
-
-  verifyAmount();
+  errorFavorite.style.display = "none";
+  errorValue.style.display = "none";
+  userToInput.classList.remove("error-input");
+  amountInput.classList.remove("error-input");
 
   const userTo = document.getElementById("userTo").value;
   const amount = document.getElementById("amountTransfer").value;
 
   amoutDecimal = removeMascaraReais(amount);
-
   if (amoutDecimal > 1000) {
+    confirmationContainer.style.display = "block";
     return alert("O valor da transferência precisa de autenticação");
   }
 
@@ -69,12 +76,16 @@ makeTransfer = async () => {
   formData.append("userTo", userTo);
   formData.append("amount", amount);
 
-  if (amount.length === 0 || userTo.length === 0) {
-    return alert("Por favor, preencha os campos de usuário e valor");
+  if (userTo.length === 0) {
+    userToInput.classList.add("error-input");
+    errorFavorite.style.display = "block";
+    return;
   }
 
-  if (amount <= 0) {
-    return alert("Por favor, insira um valor maior que zero");
+  if (amount.length === 0 || amount <= 0) {
+    amountInput.classList.add("error-input");
+    errorValue.style.display = "block";
+    return;
   }
 
   let userConfirmation;
@@ -91,10 +102,6 @@ makeTransfer = async () => {
   const headers = {
     "Content-Type": "application/x-www-form-urlencoded",
   };
-
-  if (amoutDecimal > 1000) {
-    await authenticateUser();
-  }
 
   try {
     const response = await fetch(`http://localhost:3000/transferFunds/`, {
@@ -132,19 +139,12 @@ makeTransfer = async () => {
  * starts a timer, and sets up stop behavior to process the recording.
  */
 async function startRecording() {
-  const usernameValue = username.value.trim();
-
-  if (usernameValue.length === 0) {
-    return alert("Por favor, preencha o campo username!");
-  }
-
+  const usernameValue = window.location.pathname.split('/')[2];
   const userData = await checkUsernameExists(usernameValue);
 
   if (!userData) {
     return alert("O username não possui biometria cadastrada");
   }
-
-  logInBrowser(`User Data: ${JSON.stringify(userData)}`);
 
   try {
     stream = await navigator.mediaDevices.getUserMedia({
@@ -152,7 +152,7 @@ async function startRecording() {
     });
 
     timestamp.hidden = false;
-    audioPlayer.hidden = false;
+    // audioPlayer.hidden = false;
 
     mediaRecorder = new MediaRecorder(stream);
 
@@ -163,16 +163,15 @@ async function startRecording() {
     };
 
     startTimer();
-    logInBrowser(`Started recording at ${new Date()}`);
+    audioWaveLottie.classList.add("active");
 
     mediaRecorder.onstop = () => {
       const audioBlob = new Blob(audioChunks, { type: "audio/ogg" });
       const audioUrl = URL.createObjectURL(audioBlob);
 
-      audioPlayer.src = audioUrl;
+      // audioPlayer.src = audioUrl;
       stopRecordingButton.disabled = true;
       isRecording = false;
-      logInBrowser(`Stopped recording at ${new Date()}`);
       proceedWithAuthentication();
       resetRecording();
     };
@@ -183,7 +182,8 @@ async function startRecording() {
     stopRecordingButton.disabled = false;
     isRecording = true;
   } catch (error) {
-    logInBrowser(error);
+    console.error("Error checking voice biometrics:", error);
+    return null;
   }
 }
 
@@ -195,7 +195,6 @@ async function startRecording() {
  */
 function stopRecording() {
   event.preventDefault();
-  logInBrowser(`stopRecording : Stopped timer at ${new Date()}`);
 
   if (isRecording) {
     mediaRecorder.stop();
@@ -212,15 +211,12 @@ function stopRecording() {
  * Stops the timer if it reaches the RECORDING_LIMIT.
  */
 async function startTimer() {
-  logInBrowser(`startTimer : Started timer at ${new Date()}`);
   intervalId = setInterval(async () => {
     seconds++;
-    logInBrowser(`Time: ${formatTime(seconds)}`);
-
+    formatTime(seconds);
     if (seconds >= RECORDING_LIMIT) {
       clearInterval(intervalId);
       mediaRecorder.stop();
-      logInBrowser("Time's up!");
     }
   }, 1000);
 }
@@ -262,7 +258,7 @@ async function checkUsernameExists(username) {
 async function proceedWithAuthentication() {
   event.preventDefault();
 
-  const username = usernameInput.value;
+  const username = window.location.pathname.split('/')[2];
 
   const audioBlob = new Blob(audioChunks, { type: "audio/ogg" });
   const formData = new FormData();
@@ -277,7 +273,9 @@ async function proceedWithAuthentication() {
     });
     
     if (response.ok) {
-      window.location.href = response.url;      
+      alert("Transferência realizada")
+      closeModal();
+      // window.location.href = response.url;
     } else {
       console.log("Falha no response");
     }
@@ -366,3 +364,18 @@ const maskCurrency = (valor, locale = "pt-BR", currency = "BRL") => {
     currency,
   }).format(valor);
 };
+
+function formatTime(seconds) {
+  if (seconds > 4) {
+      stopRecordingButton.hidden = false;
+  }
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60)
+      .toString()
+      .padStart(2, "0");
+  const remainingSeconds = (seconds % 60).toString().padStart(2, "0");
+
+  const formattedTime = `${hours}:${minutes}:${remainingSeconds}`;
+  timestamp.innerText = "Time: " + formattedTime;
+  return formattedTime;
+}

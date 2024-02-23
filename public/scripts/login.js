@@ -13,7 +13,7 @@ let isRecording = false;
 let stream;
 
 var usernameInput = document.getElementById("username");
-var audioPlayer = document.getElementById("audioPlayer");
+// var audioPlayer = document.getElementById("audioPlayer");
 var startRecordingButton = document.getElementById("startRecording");
 var stopRecordingButton = document.getElementById("stopRecording");
 var checkboxLogs = document.getElementById("ckbLogs");
@@ -21,13 +21,14 @@ var timestamp = document.getElementById("timeStamp");
 let audioWaveLottie = document.getElementById("audioWaveLottie");
 var loginButton = document.getElementById("submit");
 var logs = document.getElementById("logs");
+var errorLabel = document.getElementById("errorUsername");
 
 startRecordingButton.addEventListener("click", startRecording);
 stopRecordingButton.addEventListener("click", stopRecording);
 checkboxLogs.addEventListener("change", toggleLogs);
 let logContent = logs.innerText;
 stopRecordingButton.hidden = true;
-audioPlayer.hidden = true;
+// audioPlayer.hidden = true;
 timestamp.hidden = true;
 
 /**
@@ -37,16 +38,23 @@ timestamp.hidden = true;
  * starts a timer, and sets up stop behavior to process the recording.
  */
 async function startRecording() {
+  usernameInput.classList.remove("error-input");
+  errorLabel.style.display = "none";
+
   const usernameValue = username.value.trim();
 
   if (usernameValue.length === 0) {
-    return alert("Por favor, preencha o campo username!");
+    usernameInput.classList.add("error-input");
+    errorLabel.style.display = "block";
+    return
   }
 
   const userData = await checkUsernameExists(usernameValue);
 
   if (!userData) {
-    return alert("O username não possui biometria cadastrada");
+    usernameInput.classList.add("error-input");
+    errorLabel.style.display = "block";
+    return
   }
 
   logInBrowser(`User Data: ${JSON.stringify(userData)}`);
@@ -58,7 +66,7 @@ async function startRecording() {
 
     audioWaveLottie.classList.add("active");
     timestamp.hidden = false;
-    audioPlayer.hidden = false;
+    // audioPlayer.hidden = false;
 
     mediaRecorder = new MediaRecorder(stream);
 
@@ -75,7 +83,7 @@ async function startRecording() {
       const audioBlob = new Blob(audioChunks, { type: "audio/ogg" });
       const audioUrl = URL.createObjectURL(audioBlob);
 
-      audioPlayer.src = audioUrl;
+      // audioPlayer.src = audioUrl;
       stopRecordingButton.disabled = true;
       isRecording = false;
       logInBrowser(`Stopped recording at ${new Date()}`);
@@ -148,7 +156,8 @@ async function checkUsernameExists(username) {
     } else if (response.status === 404) {
       return null;
     } else {
-      alert("Failed to check username existence.");
+      usernameInput.classList.add("error-input");
+      errorLabel.style.display = "block";
       throw new Error(
         `Failed to check username existence. Status: ${response.status}`
       );

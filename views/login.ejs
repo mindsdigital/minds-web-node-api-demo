@@ -20,6 +20,7 @@
                     <div>
                         <label for="username">Username</label>
                         <input type="text" id="username" name="username" placeholder="Username..." autocomplete="false" required />
+                        <span id="errorUsername" class="errorLabel">Favor preencher corretamente o nome de usuário</span>
                     </div>
                     <div id="recordButtonWrapper">
 
@@ -28,8 +29,7 @@
 
                         <button type="button" id="startRecording">Login</button>
                         <button type="button" id="stopRecording" hidden>Enviar</button>
-                        <span id="instructions-login">Grave pelo menos 4 segundos para realizar sua
-                            autenticação.</span>
+                        <span id="instructions-login">Grave pelo menos 4 segundos para realizar sua autenticação.</span>
                     </div>
                     <div>
                         <button id="submit" type="submit" hidden>Login</button>
@@ -45,9 +45,9 @@
                         <textarea id="logs" name="logs" hidden>LOGS:</textarea>
                     </div>
                     <div>
-                        <audio id="audioPlayer" controls>
+                        <!-- <audio id="audioPlayer" controls>
                             Your browser does not support the audio element.
-                        </audio>
+                        </audio> -->
                     </div>
                 </form>
             </div>
