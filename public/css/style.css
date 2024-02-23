@@ -36,8 +36,10 @@
 
   --minds-color: #0055FF;
   --minds-color-opacity: #0055FF60;
+  --minds-color-opacity: #0055FF60;
   --a5-color: #F78215;
 
+  --radius-10: 10px;
   --radius-10: 10px;
   --border-color: #eaeaea;
   --border: 1px solid var(--border-color);
@@ -45,6 +47,10 @@
   --padding-24px: 24px;
 }
 
+
+*{
+  box-sizing: border-box;
+}
 
 *{
   box-sizing: border-box;
@@ -63,11 +69,13 @@ header {
   justify-content: space-between;
   align-items: center;
   background-color: var(--primary-dark);
+  background-color: var(--primary-dark);
   padding: 10px;
 }
 
 header img {
   max-width: 100px;
+  height: 40px;
   height: 40px;
 }
 
@@ -90,9 +98,24 @@ nav {
   text-decoration: underline;
 }
 
+.nav-menu{
+  padding: 0;
+  margin: 0;
+}
+.nav-menu li, 
+.nav-menu li a{
+  color: var(--light-text);
+  text-decoration: none;
+  font-weight: 700;
+}
+.nav-menu li a:hover{
+  text-decoration: underline;
+}
+
 /* Estilos para o conteúdo principal */
 main {
   max-width: 1400px;
+  margin: 0px auto;
   margin: 0px auto;
   padding: 20px;
   background-color: var(--grey-bg);
@@ -114,9 +137,16 @@ button {
   background-color: var(--primary-dark);
   color: var(--light-bg);
   padding: 16px;
+  color: var(--light-bg);
+  padding: 16px;
   border: none;
   border-radius: var(--radius-10);
+  border-radius: var(--radius-10);
   cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 700;
+  transition: all 0.3s ease-in-out;
   width: 100%;
   font-size: 16px;
   font-weight: 700;
@@ -125,9 +155,11 @@ button {
 
 button:hover {
   background-color: var(--minds-color);
+  background-color: var(--minds-color);
 }
 
 form {
+  max-width: 70%;
   max-width: 70%;
   margin: 10px auto;
 }
@@ -174,9 +206,17 @@ main {
 }
 
 textarea#logs {
+textarea#logs {
   width: 100%;
   height: 200px;
+  height: 200px;
   box-sizing: border-box;
+  outline: none;
+  padding: 16px;
+  border: 1px solid var(--primary-dark);
+  border-radius: var(--radius-10);
+  background-color: var(--grey-bg);
+  resize: none;
   outline: none;
   padding: 16px;
   border: 1px solid var(--primary-dark);
@@ -187,6 +227,7 @@ textarea#logs {
 
 #instructions-login {
   color: var(--orange);
+  margin-bottom: 20px;
   margin-bottom: 20px;
 }
 
@@ -202,6 +243,7 @@ textarea#logs {
 
 #timeStamp {
   margin: 10px 0 -40px;
+  margin: 10px 0 -40px;
   color: var(--font);
   font-size: small;
 }
@@ -212,6 +254,7 @@ textarea#logs {
 
 #title h1{
   color: var(--light-text);
+  margin: 0;
   margin: 0;
 }
 
@@ -280,8 +323,10 @@ textarea#logs {
   background-color: var(--light-bg);
   padding: 8px;
   margin: 12px;
+  margin: 12px;
   font-size: 20px;
   font-weight: bold;
+  border-radius: var(--radius-10);
   border-radius: var(--radius-10);
   justify-content: space-around;
   text-align: center;
@@ -310,6 +355,7 @@ textarea#logs {
   flex-direction: column;
   background-color: white;
   margin: 12px;
+  border-radius: var(--radius-10);
   border-radius: var(--radius-10);
 }
 
@@ -351,6 +397,8 @@ textarea#logs {
 
 .saidas-extrato .amount,
 .entradas-extrato .amount{
+.saidas-extrato .amount,
+.entradas-extrato .amount{
   text-align: right;
   padding: 3px;
 }
@@ -363,6 +411,7 @@ textarea#logs {
 }
 
 .saidas-extrato .transaction_type,
+.saidas-extrato .transaction_type,
 .entradas-extrato .transaction_type{
   text-align: left;
 }
@@ -371,6 +420,8 @@ textarea#logs {
   font-weight: bold;
 }
 
+.transacao-saida,
+.transaction_description,
 .transacao-saida,
 .transaction_description,
 .transaction_date {
@@ -419,6 +470,7 @@ textarea#logs {
   left: 0;
   position: absolute;
   right: 2px;
+  right: 2px;
   top: 0;
   transition: .4s;
 }
@@ -435,6 +487,7 @@ textarea#logs {
 }
 
 input:checked + .slider {
+  background-color: var(--primary-dark);
   background-color: var(--primary-dark);
 }
 
@@ -484,6 +537,10 @@ input:checked + .slider:before {
   color: var(--primary-dark);
   font-weight: 700;
   padding: 18px;
+}
+
+#logsWrapper span{
+  margin-right: 10px;
 }
 
 #logsWrapper span{
