@@ -62,7 +62,7 @@ const performAuthentication = async (document_id, phone_number, guid, audioBase6
     })
     .catch(function (error) {
       console.error(error);
-      return response;
+      return error;
     });
 };
 

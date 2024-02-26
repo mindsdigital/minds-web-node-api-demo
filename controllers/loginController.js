@@ -52,14 +52,16 @@ const postLogin = async (req, res, file) => {
       audioBase64
     );
 
-    if (!response.data) {
+    if (!response) {
       console.log("Authentication failed");
       return;
     }
 
-    console.log("Authentication response:", response.data.recommended_action);
+    console.log("Authentication response:", response.data.result.recommended_action);
 
-    switch (response.data.result.recommended_action) {
+    const result = response.data.success ? response.data.result.recommended_action : "Reject";
+
+    switch (result) {
       case "accept":
         console.log("Authentication accepted");
         const token = jwt.sign({ username: username }, process.env.JWT_SECRET, {
@@ -68,18 +70,20 @@ const postLogin = async (req, res, file) => {
         console.log(`JWToken: ${token}`);
   
         res.cookie("jwt", token, { httpOnly: true });
-        res.redirect(`/account/${username}`);  
+        res.setHeader("Content-Type", "application/json");
+        res.end(JSON.stringify(response.data))
         return;
       case "reject":
-        console.log("Authentication rejected");
-        res.redirect("/login?error=reject");
+        res.setHeader("Content-Type", "application/json");
+        res.end(JSON.stringify(response.data));
         return;
       case "accept_with_risk":
-        console.log("Authentication low confidence");
-        res.redirect(`/account/${username}?=lowconfidence`);
+        res.setHeader("Content-Type", "application/json");
+        res.end(JSON.stringify(response.data))
         return;
       default:
-        res.redirect("/login?error=unexpected_error");
+        res.setHeader("Content-Type", "application/json");
+        res.end(JSON.stringify(response.data))
     }
 
   } catch (error) {

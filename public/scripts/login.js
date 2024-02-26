@@ -22,6 +22,8 @@ let audioWaveLottie = document.getElementById("audioWaveLottie");
 var loginButton = document.getElementById("submit");
 var logs = document.getElementById("logs");
 var errorLabel = document.getElementById("errorUsername");
+let errorsMessage = document.getElementById("errorsMessage")
+let errorSpan = document.getElementById("error")
 
 startRecordingButton.addEventListener("click", startRecording);
 stopRecordingButton.addEventListener("click", stopRecording);
@@ -40,6 +42,7 @@ timestamp.hidden = true;
 async function startRecording() {
   usernameInput.classList.remove("error-input");
   errorLabel.style.display = "none";
+  errorsMessage.style.display = "none";
 
   const usernameValue = username.value.trim();
 
@@ -191,16 +194,32 @@ async function proceedWithAuthentication() {
       method: "POST",
       body: formData,
     });
-    
-    if (response.ok) {
-      window.location.href = response.url;      
+
+    const res = await response.json();
+
+    if (res.success && (res.result.recommended_action === "accept" || res.result.recommended_action === "accept_with_risk")) {
+      window.location.href = response.url;
+    } else if(res.success && res.result.recommended_action === "reject" ){
+      errorsMessage.style.display = "block";
+      if(res.result.reasons[0] === "spoof"){
+        errorSpan.innerHTML = "Aparentemente esse áudio não é legítimo e é um possível spoof de voz."
+      }
+      if(res.result.reasons[0] === "voice_different"){
+        errorSpan.innerHTML = "A voz que você está utilizando para autenticação é diferente da voz registrada. Por favor, tente novamente."
+      }
+      if(res.result.reasons[0] === "phone_flag" || res.result.reasons[0] === "voice_flag"){
+        errorSpan.innerHTML = "Identificamos que essa voz/telefone está com um bloqueio em nossa base de dados."
+      }
     } else {
-      console.log("Falha no response");
+      errorSpan.innerHTML = "Ops! A autenticação falhou. Preciso que fale um pouco mais devagar. Por favor, grave o áudio novamente."
     }
+
+    audioWaveLottie.classList.remove("active");
+    timestamp.hidden = true;
+
   } catch (error) {
-    console.error("Erro durante o login:", error);
+    errorMessage.innerHTML = "Ops! A autenticação falhou. Preciso que fale um pouco mais devagar. Por favor, grave o áudio novamente."
     stream.getTracks().forEach(track => track.stop());
-    //window.location.href = `/login?error=unexpected_error`;
   }
 }
 

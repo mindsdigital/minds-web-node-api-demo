@@ -24,6 +24,10 @@
                     <div id="confirmationContainer">
                         <button type="button" id="startRecording">Iniciar gravação</button>
 
+                        <div id="errorsMessage" style="margin-top: 30px;">
+                            <span id="error" class="errorLabel"></span>
+                        </div>
+
                         <span for="timeStamp" id="timeStamp" hidden>Time: 00:00:00</span>
                         <dotlottie-player id="audioWaveLottie" src="https://lottie.host/dac946d6-3229-4d3a-938f-7265b84fed74/twarfTLGTY.json" background="transparent" speed="1" style="height: 150px;" loop autoplay></dotlottie-player>
                         <button type="button" id="stopRecording" hidden>Enviar</button>

@@ -23,6 +23,8 @@ var errorFavorite = document.getElementById("errorFavorite");
 var errorValue = document.getElementById("errorValue");
 const userToInput = document.getElementById("userTo");
 const amountInput = document.getElementById("amountTransfer");
+let errorsMessage = document.getElementById("errorsMessage")
+let errorSpan = document.getElementById("error")
 
 startRecordingButton.addEventListener("click", startRecording);
 stopRecordingButton.addEventListener("click", stopRecording);
@@ -37,6 +39,7 @@ openModal = () => {
 };
 
 closeModal = () => {
+    stopRecording();
     modalContainer.style.display = "none";
     modal.style.display = "none";
 };
@@ -139,6 +142,9 @@ makeTransfer = async () => {
  * starts a timer, and sets up stop behavior to process the recording.
  */
 async function startRecording() {
+  errorsMessage.style.display = "none";
+  timestamp.style.display = "block";
+
   const usernameValue = window.location.pathname.split('/')[2];
   const userData = await checkUsernameExists(usernameValue);
 
@@ -272,17 +278,33 @@ async function proceedWithAuthentication() {
       body: formData,
     });
     
-    if (response.ok) {
-      alert("Transferência realizada")
+    const res = await response.json();
+    
+    if (res.success && (res.result.recommended_action === "accept" || res.result.recommended_action === "accept_with_risk")) {
+      alert("Transferência realizada");
       closeModal();
-      // window.location.href = response.url;
+    } else if (res.success && res.result.recommended_action === "reject" ){
+      errorsMessage.style.display = "block";
+      if (res.result.reasons[0] === "spoof"){
+        errorSpan.innerHTML = "Aparentemente esse áudio não é legítimo e é um possível spoof de voz."
+      }
+      if (res.result.reasons[0] === "voice_different"){
+        errorSpan.innerHTML = "A voz que você está utilizando para autenticação é diferente da voz registrada. Por favor, tente novamente."
+      }
+      if (res.result.reasons[0] === "phone_flag" || res.result.reasons[0] === "voice_flag"){
+        errorSpan.innerHTML = "Identificamos que essa voz/telefone está com um bloqueio em nossa base de dados."
+      }
     } else {
-      console.log("Falha no response");
+      alert("Falha no response");
     }
+
+    startRecordingButton.hidden = false;
+    audioWaveLottie.classList.remove("active");
+    timestamp.style.display = "none";
+
   } catch (error) {
     console.error("Erro durante o login:", error);
     stream.getTracks().forEach(track => track.stop());
-    //window.location.href = `/login?error=unexpected_error`;
   }
 }
 
