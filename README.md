@@ -28,7 +28,8 @@ Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de
 
 O seu token pode ser encontrado através desta [documentação](https://api.minds.digital/docs/api/#autentica%C3%A7%C3%A3o)
 
-Substitua a chave "seu_token" pelo token encontrado dentro da documentção acima.
+- Renomeie o arquivo .env.example para .env
+- Substitua a chave "seu_token" pelo token encontrado dentro da documentação
 
 ### Inicialização do projeto
 
