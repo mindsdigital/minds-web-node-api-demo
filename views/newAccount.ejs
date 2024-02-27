@@ -3,39 +3,40 @@
 
 <head>
     <%- include('partials/head.ejs') %>
-        <title>Faça seu Login no Minds Bank</title>
+        <title>Cadastre-se - Minds Bank</title>
 </head>
 
 <body>
-    <header>
-        <%- include('partials/header.ejs') %>
-    </header>
-    <section class="main">
-        <div class="sidebar">
-            <h3>O que você deseja fazer hoje?</h3>
-            <a href="#">Extrato</a>
-            <a href="#" onclick="openModal()">Transferencia</a>
-            <a href="#">Empréstimo</a>
-            <a href="#">Dados Pessoais</a>
-            <a href="#">Configurações</a>
-            <hr>
-        </div><!-- sidebar -->
+    <main id="loginPage">
+        <aside>
+            <img src="/images/woman-using-laptop.jpg" alt="Robo usando autenticação de voz" />
+        </aside>
+        <article>
+            <div class="content">
+                <div id="loginInfo">
+                    <img src="/images/minds.png" alt="Minds Digital" />
+                </div>
+                
+                <h1>Abra sua conta</h1>
 
-        <div class="content">
-            <div class="section-title">
-                <p>Abra sua conta</p>
-            </div><!-- section-title-->
-            <div class="openNewAccount">
-                <h3>Dados Pessoais</h3>
-                <form>
-                    <input type="text" name="fullname" placeholder="Nome Completo">
-                    <input type="text" name="documentId" placeholder="CPF">
-                    <input type="text" name="phoneNumber" placeholder="Telefone">
-                    <input type="text" name="email" placeholder="Email">
-                    <input type="text" name="username" placeholder="Username">
-                </form>
-                <h3>Cadastro da Biometria de Voz</h3>
-            </div><!-- openNewAccount -->
-    </section>
+                <!-- section-title-->
+                <div class="openNewAccount">
+                    <h4>Dados Pessoais</h4>
+                    <form>
+                        <input type="text" name="fullname" placeholder="Nome Completo">
+                        <input type="text" name="documentId" placeholder="CPF">
+                        <input type="text" name="phoneNumber" placeholder="Telefone">
+                        <input type="text" name="email" placeholder="Email">
+                        <input type="text" name="username" placeholder="Username">
+                    </form>
+                </div>
+                <!-- openNewAccount -->
+
+                <div class="biometryNewAccount">
+                    <h4>Cadastro da Biometria de Voz</h4>
+                </div>
+            </div>
+        </article>
+    </main>
 </body>
 </html>

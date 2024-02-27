@@ -208,6 +208,10 @@ textarea#logs {
   resize: none;
 }
 
+h4 {
+  margin-bottom: 10px;
+}
+
 #instructions-login {
   color: var(--orange);
   margin-bottom: 20px;
@@ -715,4 +719,22 @@ hr{
 
 .totalsBox svg path{
   stroke: var(--primary-dark);
+}
+
+#errorsMessage {
+  display: none;
+  margin-bottom: 30px;
+}
+#errorsMessage span{
+  font-size: 1em;
+}
+
+.content{
+  max-width: 70%;
+  margin: 10px auto;
+}
+
+.content form{
+  max-width: 100%;
+  margin: 0px auto;
 }
