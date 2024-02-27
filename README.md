@@ -2,7 +2,7 @@
 
 ### Descrição
 
-Este é um projeto exemplo de como a biometria de voz pode ser utilizada dentro do contexto financeiro de um banco, tanto para login como validação de uma transferência.
+Este é um projeto exemplo de como a biometria de voz pode ser utilizada dentro do contexto financeiro de um banco, tanto para login como validação de uma transferência
 
 ### Iniciando
 
@@ -20,7 +20,17 @@ cd "diretorio de sua preferencia"
 git clone https://github.com/mindsdigital/minds-web-node-api-demo.git
 ```
 
-### Inicialização
+### Variáveis de Ambiente
+
+Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de ambiente no seu .env
+
+`TOKEN`
+
+O seu token pode ser encontrado através desta [documentação](https://api.minds.digital/docs/api/#autentica%C3%A7%C3%A3o)
+
+Substitua a chave "seu_token" pelo token encontrado dentro da documentção acima.
+
+### Inicialização do projeto
 
 Para iniciar o projeto é necessário digitar no seu terminal de escolha:
 `npm run start`
