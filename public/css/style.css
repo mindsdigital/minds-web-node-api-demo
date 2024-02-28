@@ -723,10 +723,20 @@ hr{
 
 #errorsMessage {
   display: none;
+  grid-template-columns: 30px 1fr;
+  gap: 10px;
+  align-items: center;
   margin-bottom: 30px;
 }
 #errorsMessage span{
+  display: block;
   font-size: 1em;
+  margin-bottom: 0px;
+}
+#errorsMessage svg{
+  width: 30px;
+  height: auto;
+  fill: var(--red);
 }
 
 .content{
@@ -738,3 +748,5 @@ hr{
   max-width: 100%;
   margin: 0px auto;
 }
+
+

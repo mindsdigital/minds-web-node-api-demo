@@ -200,7 +200,7 @@ async function proceedWithAuthentication() {
     if (res.success && (res.result.recommended_action === "accept" || res.result.recommended_action === "accept_with_risk")) {
       window.location.href = response.url;
     } else if(res.success && res.result.recommended_action === "reject" ){
-      errorsMessage.style.display = "block";
+      errorsMessage.style.display = "grid";
       if(res.result.reasons[0] === "spoof"){
         errorSpan.innerHTML = "Aparentemente esse áudio não é legítimo e é um possível spoof de voz."
       }
@@ -214,12 +214,19 @@ async function proceedWithAuthentication() {
       errorSpan.innerHTML = "Ops! A autenticação falhou. Preciso que fale um pouco mais devagar. Por favor, grave o áudio novamente."
     }
 
+    startRecordingButton.hidden = false;
     audioWaveLottie.classList.remove("active");
-    timestamp.hidden = true;
+    timestamp.style.display = "none";
 
   } catch (error) {
-    errorMessage.innerHTML = "Ops! A autenticação falhou. Preciso que fale um pouco mais devagar. Por favor, grave o áudio novamente."
+    errorsMessage.style.display = "grid";
+    errorSpan.innerHTML = "Ops! A autenticação falhou. Preciso que fale um pouco mais devagar. Por favor, grave o áudio novamente.";
+
     stream.getTracks().forEach(track => track.stop());
+
+    startRecordingButton.hidden = false;
+    audioWaveLottie.classList.remove("active");
+    timestamp.style.display = "none";
   }
 }
 

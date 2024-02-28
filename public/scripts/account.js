@@ -284,7 +284,7 @@ async function proceedWithAuthentication() {
       alert("Transferência realizada");
       closeModal();
     } else if (res.success && res.result.recommended_action === "reject" ){
-      errorsMessage.style.display = "block";
+      errorsMessage.style.display = "grid";
       if (res.result.reasons[0] === "spoof"){
         errorSpan.innerHTML = "Aparentemente esse áudio não é legítimo e é um possível spoof de voz."
       }
@@ -303,8 +303,14 @@ async function proceedWithAuthentication() {
     timestamp.style.display = "none";
 
   } catch (error) {
-    console.error("Erro durante o login:", error);
+    errorsMessage.style.display = "grid";
+    errorSpan.innerHTML = "Ops! A autenticação falhou. Preciso que fale um pouco mais devagar. Por favor, grave o áudio novamente.";
+    
     stream.getTracks().forEach(track => track.stop());
+
+    startRecordingButton.hidden = false;
+    audioWaveLottie.classList.remove("active");
+    timestamp.style.display = "none";
   }
 }
 
