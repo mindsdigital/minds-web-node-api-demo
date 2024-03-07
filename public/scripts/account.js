@@ -40,9 +40,21 @@ openModal = () => {
 
 closeModal = () => {
     stopRecording();
-    modalContainer.style.display = "none";
-    modal.style.display = "none";
+    cleanModal();
 };
+
+cleanModal = () =>{
+  modalContainer.style.display = "none";
+  modal.style.display = "none";
+  errorFavorite.style.display = "none";
+  errorValue.style.display = "none";
+  errorsMessage.style.display = "none";
+  userToInput.classList.remove("error-input");
+  amountInput.classList.remove("error-input");
+
+  amountInput.value = '';
+  userToInput.selectedIndex = 0;
+}
 
 btnCancelTransfer.addEventListener("click", closeModal());
 
