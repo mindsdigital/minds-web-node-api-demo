@@ -68,7 +68,7 @@ async function startRecording() {
     });
 
     audioWaveLottie.classList.add("active");
-    timestamp.hidden = false;
+    timestamp.style.display = "block";
     // audioPlayer.hidden = false;
 
     mediaRecorder = new MediaRecorder(stream);
@@ -217,7 +217,7 @@ async function proceedWithAuthentication() {
 
     startRecordingButton.hidden = false;
     audioWaveLottie.classList.remove("active");
-    timestamp.style.display = "none";
+    timestamp.style.display = "block";
 
   } catch (error) {
     errorsMessage.style.display = "grid";
