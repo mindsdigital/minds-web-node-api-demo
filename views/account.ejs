@@ -26,7 +26,7 @@
             <div class="section-title">
                 <h2>Extrato</h2>
                 <hr>
-                <p>Movimentações de Fevereiro de 2024</p>
+                <p>Movimentações de <span id="month"></span> de 2024</p>
             </div><!-- section-title-->
             <div class="dashboard">
                 <div class="incomingBox d-flex">
@@ -97,6 +97,14 @@
     </section><!-- main -->
 
     <script type="text/javascript">
+        const month = document.getElementById('month');
+        
+        const months = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+        const date = new Date();
+        const actualMonth = months[date.getMonth()];
+
+        month.innerHTML = `${actualMonth}`;
+
         const incoming = document.getElementById('incomingBox');
         const outgoing = document.getElementById('outgoingBox');
         const totals = document.getElementById('totalsBox');
