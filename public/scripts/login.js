@@ -198,9 +198,8 @@ async function proceedWithAuthentication() {
     const res = await response.json();
 
     if (res.success && (res.result.recommended_action === "accept" || res.result.recommended_action === "accept_with_risk")) {
-      console.log('Sucesso');
-      console.log('response: ', response);
-      window.location.href = response.url;
+      window.location.href = `http://localhost:3000/account/${username}`;
+
     } else if(res.success && res.result.recommended_action === "reject" ){
       errorsMessage.style.display = "grid";
       if(res.result.reasons[0] === "spoof"){
