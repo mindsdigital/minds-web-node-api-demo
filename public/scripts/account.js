@@ -200,7 +200,7 @@ async function startRecording() {
  * and stop recording buttons.
  */
 function stopRecording() {
-  event.preventDefault();
+  // event.preventDefault();
 
   if (isRecording) {
     mediaRecorder.stop();
