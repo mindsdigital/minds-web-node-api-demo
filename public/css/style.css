@@ -756,3 +756,7 @@ button[disabled]:hover{
   background-color: var(--security-blue);
   opacity: 0.3;
 }
+
+#valueMessage{
+  text-align: center;
+}

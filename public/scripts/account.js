@@ -165,7 +165,6 @@ async function startRecording() {
 
   errorsMessage.style.display = "none";
   timestamp.style.display = "block";
-  transferBtn.disabled = true;
 
   const usernameValue = window.location.pathname.split('/')[2];
   const userData = await checkUsernameExists(usernameValue);
@@ -199,7 +198,6 @@ async function startRecording() {
       isRecording = false;
       proceedWithAuthentication();
       resetRecording();
-      transferBtn.disabled = false;
     };
 
     mediaRecorder.start();
