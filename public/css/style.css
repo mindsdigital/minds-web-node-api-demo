@@ -749,4 +749,10 @@ hr{
   margin: 0px auto;
 }
 
-
+button:disabled,
+button[disabled],
+button[disabled]:hover{
+  cursor: not-allowed;
+  background-color: var(--security-blue);
+  opacity: 0.3;
+}

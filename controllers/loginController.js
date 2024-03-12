@@ -65,7 +65,7 @@ const postLogin = async (req, res, file) => {
       case "accept":
         console.log("Authentication accepted");
         const token = jwt.sign({ username: username }, process.env.JWT_SECRET, {
-          expiresIn: "15m",
+          // expiresIn: "45000m",
         });
         console.log(`JWToken: ${token}`);
   

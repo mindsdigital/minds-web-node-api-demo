@@ -18,10 +18,11 @@
                     <br />
                     <div>
                         <label for="amountTransfer">Valor:</label>
-                        <input type="text" name="amountTransfer" id="amountTransfer" placeholder="Valor de Transferencia" autocomplete=false oninput="mascaraReais(event);" required>
+                        <input type="text" name="amountTransfer" id="amountTransfer" placeholder="Valor de Transferencia" autocomplete=false oninput="mascaraReais(event);mudancaValor(this.value);"  required>
                         <span id="errorValue" class="errorLabel">Por favor, preencha o campo de valor</span>
                     </div>
                     <div id="confirmationContainer">
+                        <p id="valueMessage">Valores acima de R$1000,00 é necessário fazer sua autenticação.</p>
                         <button type="button" id="startRecording">Iniciar gravação</button>
 
                         <div id="errorsMessage" style="margin-top: 30px;">
@@ -38,9 +39,7 @@
 
                         <label id="instructions-login">Grave pelo menos 4 segundos para realizar sua autenticação.</label>
                     </div>
-                    <!-- <audio id="audioPlayer" controls>
-                        Your browser does not support the audio element.
-                    </audio> -->
+                    
                     <div class="double-buttons">
                         <button id="transferBtn" class="btn-main" type="button" onclick="makeTransfer()">Transferir</button>
                         <button id="cancelTranferBtn" type="button" onclick="closeModal()">Cancelar</button>

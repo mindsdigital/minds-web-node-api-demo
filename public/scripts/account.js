@@ -1,4 +1,5 @@
 const RECORDING_LIMIT = 15; // do not exceed 30 seconds.
+const transferLimit = 1000;
 
 const btnTransfer = document.getElementById("transferOption");
 const btnCancelTransfer = document.getElementById("cancelTranferBtn");
@@ -18,6 +19,7 @@ var timestamp = document.getElementById("timeStamp");
 var startRecordingButton = document.getElementById("startRecording");
 var stopRecordingButton = document.getElementById("stopRecording");
 var loginButton = document.getElementById("startRecording");
+let transferBtn = document.getElementById("transferBtn");
 let audioWaveLottie = document.getElementById("audioWaveLottie");
 var errorFavorite = document.getElementById("errorFavorite");
 var errorValue = document.getElementById("errorValue");
@@ -36,19 +38,26 @@ confirmationContainer.style.display = "none";
 openModal = () => {
     modalContainer.style.display = "block";
     modal.style.display = "block";
+    transferBtn.disabled = false;
 };
 
 closeModal = () => {
     stopRecording();
     cleanModal();
+    location.reload();
 };
 
 cleanModal = () =>{
   modalContainer.style.display = "none";
   modal.style.display = "none";
+  confirmationContainer.style.display = "none";
+
   errorFavorite.style.display = "none";
   errorValue.style.display = "none";
   errorsMessage.style.display = "none";
+
+  transferBtn.disabled = false;
+
   userToInput.classList.remove("error-input");
   amountInput.classList.remove("error-input");
 
@@ -56,13 +65,13 @@ cleanModal = () =>{
   userToInput.selectedIndex = 0;
 }
 
-btnCancelTransfer.addEventListener("click", closeModal());
+btnCancelTransfer.addEventListener("click", closeModal);
 
 verifyAmount = () => {
   const amount = document.getElementById("amountTransfer").value;
   const amountDecimal = removeMascaraReais(amount);
 
-  if (amountDecimal >= 1000) {
+  if (amountDecimal >= transferLimit) {
     // unhide transfer button
     confirmationContainer.style.display = "block";
     return;
@@ -75,14 +84,17 @@ makeTransfer = async () => {
   errorValue.style.display = "none";
   userToInput.classList.remove("error-input");
   amountInput.classList.remove("error-input");
+  amountInput.classList.remove("error-input");
+
+  errorsMessage.style.display = "none";
 
   const userTo = document.getElementById("userTo").value;
   const amount = document.getElementById("amountTransfer").value;
 
   amoutDecimal = removeMascaraReais(amount);
-  if (amoutDecimal > 1000) {
+  if (amoutDecimal >= transferLimit) {
     confirmationContainer.style.display = "block";
-    return alert("O valor da transferência precisa de autenticação");
+    return;
   }
 
   console.log(userTo, amount);
@@ -103,16 +115,6 @@ makeTransfer = async () => {
     return;
   }
 
-  let userConfirmation;
-  if (amoutDecimal > 1000) {
-    userConfirmation = confirm(
-      "Precisaremos proceder com a validação da sua biometria para a transferência"
-    );
-    if (!userConfirmation) {
-      return alert("A transferência foi cancelada");
-    }
-  }
-
   // Fix: Set headers to indicate form data is being sent
   const headers = {
     "Content-Type": "application/x-www-form-urlencoded",
@@ -123,7 +125,7 @@ makeTransfer = async () => {
       method: "POST",
       // Pass form data and headers
       body: new URLSearchParams({
-        userFrom: userFrom,
+        userFrom: null,
         userTo: userTo,
         amount: amoutDecimal,
       }),
@@ -154,8 +156,16 @@ makeTransfer = async () => {
  * starts a timer, and sets up stop behavior to process the recording.
  */
 async function startRecording() {
+  const amount = document.getElementById("amountTransfer").value;
+  amoutDecimal = removeMascaraReais(amount);
+  if (amoutDecimal < transferLimit) {
+    makeTransfer();
+    return;
+  }
+
   errorsMessage.style.display = "none";
   timestamp.style.display = "block";
+  transferBtn.disabled = true;
 
   const usernameValue = window.location.pathname.split('/')[2];
   const userData = await checkUsernameExists(usernameValue);
@@ -170,8 +180,6 @@ async function startRecording() {
     });
 
     timestamp.hidden = false;
-    // audioPlayer.hidden = false;
-
     mediaRecorder = new MediaRecorder(stream);
 
     mediaRecorder.ondataavailable = (event) => {
@@ -187,17 +195,16 @@ async function startRecording() {
       const audioBlob = new Blob(audioChunks, { type: "audio/ogg" });
       const audioUrl = URL.createObjectURL(audioBlob);
 
-      // audioPlayer.src = audioUrl;
-      stopRecordingButton.disabled = true;
+      stopRecordingButton.hidden = true;
       isRecording = false;
       proceedWithAuthentication();
       resetRecording();
+      transferBtn.disabled = false;
     };
 
     mediaRecorder.start();
     startRecordingButton.hidden = true;
     stopRecordingButton.hidden = true;
-    stopRecordingButton.disabled = false;
     isRecording = true;
   } catch (error) {
     console.error("Error checking voice biometrics:", error);
@@ -293,7 +300,6 @@ async function proceedWithAuthentication() {
     const res = await response.json();
     
     if (res.success && (res.result.recommended_action === "accept" || res.result.recommended_action === "accept_with_risk")) {
-      alert("Transferência realizada");
       closeModal();
     } else if (res.success && res.result.recommended_action === "reject" ){
       errorsMessage.style.display = "grid";
@@ -418,4 +424,16 @@ function formatTime(seconds) {
   const formattedTime = `${hours}:${minutes}:${remainingSeconds}`;
   timestamp.innerText = "Time: " + formattedTime;
   return formattedTime;
+}
+
+const mudancaValor = (value) => {
+  value = removeMascaraReais(value);
+
+  if(value < transferLimit){
+    transferBtn.disabled = false;
+    confirmationContainer.style.display = "none";
+  } else{
+    transferBtn.disabled = true;
+    confirmationContainer.style.display = "block";
+  }
 }

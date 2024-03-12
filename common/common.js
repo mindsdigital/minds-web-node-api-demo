@@ -28,6 +28,22 @@ const isAuthenticated = (req, res, next) => {
   }
 }
 
+const isAuthenticatedGetUser = (req) => {
+    const token = req.cookies && req.cookies.jwt;
+  
+    if (token) {
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            console.log(`User ${decoded.username} authenticated`);
+            return decoded;
+        } catch (error) {
+            res.redirect('/login?error=invalid_token');
+        }
+    } else {
+        res.redirect('/login?error=missing_token');
+    }
+  }
+
 /**
  * Cleans the username by removing all non-alphanumeric characters.
  * This ensures only valid characters remain for lookup in the database.
@@ -43,5 +59,6 @@ module.exports = {
     formatDate,
     formatCurrency, 
     removeInvalidChar, 
-    isAuthenticated
+    isAuthenticated,
+    isAuthenticatedGetUser
 };
